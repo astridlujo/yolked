@@ -1,7 +1,14 @@
-import React, { Component } from 'react';
-import { View, TextInput, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet
+} from 'react-native';
+import Button from '../modules/Button';
 
-export default function LoginTextInput() {
+const Login = () => {
   const [valueEmail, onChangeEmail] = React.useState('');
   const [valuePassword, onChangePassword] = React.useState('');
 
@@ -21,17 +28,22 @@ export default function LoginTextInput() {
           style={styles.inputStyle}
           onChangeText={text => onChangePassword(text)}
           value={valuePassword}
+          secureTextEntry
         />
       </View>
       <View style={styles.viewStyle}>
-        <TouchableOpacity
-          style={styles.buttonStyle}>
-          <Text style={styles.textStyle}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.buttonStyle}>
-          <Text style={styles.textStyle}>Signup</Text>
-        </TouchableOpacity>
+        <Button
+          text='Login'
+          onPress={() => {
+            alert(valueEmail);
+          }}
+        />
+        <Button
+          text='Signup'
+          onPress={() => {
+            alert(valuePassword);
+          }}
+        />
       </View>
     </View>
   );
@@ -75,3 +87,5 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
+
+export default Login;
