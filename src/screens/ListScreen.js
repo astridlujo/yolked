@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlatList, StyleSheet,SafeAreaView, Searchbar } from 'react-native';
-import ListItem from '../components/ListItem';
-import Search from '../components/Search';
+import ListItem from '../modules/ListItem';
+import Search from '../modules/Search';
 
 const DATA = [
   {

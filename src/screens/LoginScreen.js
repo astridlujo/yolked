@@ -8,10 +8,23 @@ import {
 } from 'react-native';
 import Button from '../modules/Button';
 import Logo from '../../assets/images/yolked_logo.svg';
+import * as firebase from 'firebase';
+import ApiKeys from '../../constants/ApiKeys';
 
 const Login = () => {
   const [valueEmail, onChangeEmail] = useState('');
   const [valuePassword, onChangePassword] = useState('');
+
+  const Validate = () => {
+    firebase.initializeApp(ApiKeys.FirebaseConfig);
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      alert(`Error Code: ${errorCode}\n${errorMessage}`);
+    });
+    alert("User signed in");
+  }
 
   return (
     <View style={{flex: 1, backgroundColor: '#D8A120'}}>
@@ -41,7 +54,7 @@ const Login = () => {
         <Button
           text='Login'
           onPress={() => {
-            alert(valueEmail);
+            Validate(valueEmail, valuePassword);
           }}
         />
         <Button
