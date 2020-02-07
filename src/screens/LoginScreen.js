@@ -8,22 +8,24 @@ import {
 } from 'react-native';
 import Button from '../modules/Button';
 import Logo from '../../assets/images/yolked_logo.svg';
-import * as firebase from 'firebase';
-import ApiKeys from '../../constants/ApiKeys';
+import Firebase from '../../constants/ApiKeys';
 
 const Login = () => {
   const [valueEmail, onChangeEmail] = useState('');
   const [valuePassword, onChangePassword] = useState('');
 
-  const Validate = () => {
-    firebase.initializeApp(ApiKeys.FirebaseConfig);
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+  const Validate = (email, password) => {
+    let auth = true;
+    Firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       alert(`Error Code: ${errorCode}\n${errorMessage}`);
+      auth = false;
     });
-    alert("User signed in");
+    if (auth) {
+      alert("User signed in");
+    }
   }
 
   return (
