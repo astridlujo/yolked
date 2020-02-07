@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -7,20 +7,24 @@ import {
   StyleSheet
 } from 'react-native';
 import Button from '../modules/Button';
+import Logo from '../../assets/images/yolked_logo.svg';
 
 const Login = () => {
-  const [valueEmail, onChangeEmail] = React.useState('');
-  const [valuePassword, onChangePassword] = React.useState('');
+  const [valueEmail, onChangeEmail] = useState('');
+  const [valuePassword, onChangePassword] = useState('');
 
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor: '#D8A120'}}>
       <View style={styles.viewStyle}>
+        <Logo width={'100%'} height={'100%'}/>
       </View>
       <View style={styles.viewStyle}>
         <TextInput
           placeholder='Email/Username'
           style={styles.inputStyle}
           onChangeText={text => onChangeEmail(text)}
+          autoCapitalize="none"
+          autoCorrect={false}
           value={valueEmail}
         />
         <TextInput
@@ -28,6 +32,8 @@ const Login = () => {
           style={styles.inputStyle}
           onChangeText={text => onChangePassword(text)}
           value={valuePassword}
+          autoCapitalize="none"
+          autoCorrect={false}
           secureTextEntry
         />
       </View>
