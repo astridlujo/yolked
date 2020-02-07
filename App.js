@@ -1,17 +1,19 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Login from './src/screens/LoginScreen';
-export default function App() {
-  return (
-    <Login />
-  );
-}
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import LoginScreen from './src/screens/LoginScreen';
+import SignupScreen from './src/screens/SignupScreen';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const navigator = createStackNavigator(
+  {
+    Login: LoginScreen,
+    Signup: SignupScreen
   },
-});
+  {
+    initialRouteName: 'Login',
+    defaultNavigationOptions: {
+      title: 'Yolked'
+    }
+  }
+);
+
+export default createAppContainer(navigator);
