@@ -8,24 +8,24 @@ import {
 } from 'react-native';
 import Button from '../modules/Button';
 import Logo from '../../assets/images/yolked_logo.svg';
-import Firebase from '../../constants/ApiKeys';
+import Firebase from '../../constants/FirebaseKeys';
 
-const Login = () => {
+const Login = ({ navigation }) => {
   const [valueEmail, onChangeEmail] = useState('');
   const [valuePassword, onChangePassword] = useState('');
 
-  const Validate = (email, password) => {
+  const Validate = async (email, password) => {
     let auth = true;
-    Firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+    await Firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       alert(`Error Code: ${errorCode}\n${errorMessage}`);
       auth = false;
+      return;
     });
-    if (auth) {
-      alert("User signed in");
-    }
+
+    alert("User signed in");
   }
 
   return (
@@ -62,7 +62,7 @@ const Login = () => {
         <Button
           text='Signup'
           onPress={() => {
-            alert(valuePassword);
+            navigation.navigate('Signup');
           }}
         />
       </View>
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
   },
   // Maybe delete and keep viewStyle only
   inputStyle: {
-    fontFamily: 'Roboto',
+    //fontFamily: 'Roboto',
     paddingLeft: 20,
     borderColor: '#e09900',
     borderRadius: 20,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   textStyle: {
-    fontFamily: 'notoserif',
+    //fontFamily: 'notoserif',
     color: '#505050',
     fontSize: 15,
     textAlign: 'center'
