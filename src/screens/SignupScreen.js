@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import Button from '../modules/Button';
+import Button from '../components/Button';
 import Firebase from '../../constants/FirebaseKeys';
 
 const Signup = ({ navigation }) => {

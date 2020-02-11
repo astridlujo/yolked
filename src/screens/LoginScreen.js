@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
-import Button from '../modules/Button';
+import Button from '../components/Button';
 import Logo from '../../assets/images/yolked_logo.svg';
 import Firebase from '../../constants/FirebaseKeys';
 
