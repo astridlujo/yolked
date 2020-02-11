@@ -28,8 +28,10 @@ const Signup = ({ navigation }) => {
       auth = false;
       return;
     });
-    alert('Check your email to validate, then login');
-    navigation.navigate('Login');
+    if (auth) {
+      alert('Check your email to validate, then login');
+      navigation.navigate('Login');
+    }
   }
   return (
     <View style={{flex: 1, backgroundColor: '#D8A120'}}>

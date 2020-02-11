@@ -16,6 +16,7 @@ const Login = ({ navigation }) => {
 
   const Validate = async (email, password) => {
     let auth = true;
+    email = email.trim();
     await Firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
@@ -24,8 +25,9 @@ const Login = ({ navigation }) => {
       auth = false;
       return;
     });
-
-    alert("User signed in");
+    if (auth) {
+      alert("User signed in");
+    }
   }
 
   return (
