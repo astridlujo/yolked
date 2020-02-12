@@ -7,14 +7,27 @@ import {
   StyleSheet
 } from 'react-native';
 import Button from '../components/Button';
-import Logo from '../../assets/images/yolked_logo.svg';
 import Firebase from '../../constants/FirebaseKeys';
 
-const Login = ({ navigation }) => {
+// Images
+import Logo from '../../assets/images/yolked_logo.svg';
+
+const LoginScreen = ({ navigation }) => {
   const [valueEmail, onChangeEmail] = useState('');
   const [valuePassword, onChangePassword] = useState('');
 
+  // Use this with a splash screen....
+  Firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      navigation.navigate('Test');
+    } else {
+      console.log('User not signed in');
+      return;
+    }
+  });
+
   const Validate = async (email, password) => {
+    console.log("Function active");
     let auth = true;
     email = email.trim();
     await Firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -22,11 +35,14 @@ const Login = ({ navigation }) => {
       var errorCode = error.code;
       var errorMessage = error.message;
       alert(`Error Code: ${errorCode}\n${errorMessage}`);
+      onChangePassword('');
       auth = false;
-      return;
+      return false;
     });
     if (auth) {
       alert("User signed in");
+      navigation.navigate('Test');
+      return true;
     }
   }
 
@@ -111,4 +127,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Login;
+export default LoginScreen;
