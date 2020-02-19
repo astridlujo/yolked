@@ -3,7 +3,7 @@ import React from 'react';
 import { View, StyleSheet, Text, FlatList, TextInput, Button } from 'react-native';
 
 import { CATEGORIES, MEALS } from '../../data/dummy-data';
-import MealItem from '../../components/MealItem';
+import MealItem from '../components/MealItem';
 
 const CategoryMealsScreen = props => {
 

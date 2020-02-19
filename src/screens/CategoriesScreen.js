@@ -3,7 +3,7 @@ import React, { useState, useReducer }  from 'react';
 import { View, StyleSheet, FlatList, TextInput, Button } from 'react-native';
 
 import { CATEGORIES } from '../../data/dummy-data';
-import CategoryGridTile from '../../components/CategoryGridTile';
+import CategoryGridTile from '../components/CategoryGridTile';
 
 // Edamam Pull import
 import { SearchRecipe } from '../scripts/EdamamPull';
