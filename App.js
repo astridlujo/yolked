@@ -16,7 +16,7 @@ const navigator = createStackNavigator(
     Test: TestScreen
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'List',
     defaultNavigationOptions: {
       title: 'Yolked',
       headerShown: false

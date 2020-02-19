@@ -2,7 +2,7 @@ import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button, Card, Title, Paragraph, IconButton, Colors } from 'react-native-paper';
 
-const ListItem = ({item, amount}) => (
+const ListItem = ({id, item, amount, onIncrease, onDecrease, onDelete}) => (
 
   <Card style={{flexDirection: 'row'}}>
 
@@ -13,20 +13,20 @@ const ListItem = ({item, amount}) => (
     icon="minus"
     color={Colors.blue500}
     size={20}
-    onPress={() => amount = amount - 1}
+    onPress={() => onDecrease()}
   />
       <Title>{amount}</Title>
       <IconButton
     icon="plus"
     color={Colors.blue500}
     size={20}
-    onPress={() => console.log('Pressed')}
+    onPress={() =>onIncrease()}
   />
       <IconButton
     icon="cup"
     color={Colors.red500}
     size={20}
-    onPress={() => console.log('Pressed')}
+    onPress={() => onDelete()}
   />
     </Card.Actions>
   </Card>
