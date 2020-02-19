@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,20 +10,24 @@ import Button from '../components/Button';
 import Firebase from '../../constants/FirebaseKeys';
 
 // Images
-import Logo from '../../assets/images/yolked_logo.svg';
+import LogoSymbol from '../../assets/images/yolked_logo.svg';
+import LogoText from '../../assets/images/yolked_text.svg';
 
 const LoginScreen = ({ navigation }) => {
   const [valueEmail, onChangeEmail] = useState('');
   const [valuePassword, onChangePassword] = useState('');
 
-  // Use this with a splash screen....
-  Firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      navigation.navigate('Test');
-    } else {
-      console.log('User not signed in');
-      return;
-    }
+  // TODO: Look into using a splash screen.
+  useEffect(() => {
+    Firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log('User signed in');
+        navigation.navigate('Test');
+      } else {
+        console.log('User not signed in');
+        return;
+      }
+    });
   });
 
   const Validate = async (email, password) => {
@@ -47,9 +51,10 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#D8A120'}}>
+    <View style={{flex: 1, backgroundColor: '#D8A120' }}>
       <View style={styles.viewStyle}>
-        <Logo width={'100%'} height={'100%'}/>
+        <LogoSymbol width={'100%'} height={'50%'}/>
+        <LogoText width={'100%'} height={'30%'}/>
       </View>
       <View style={styles.viewStyle}>
         <TextInput
