@@ -5,7 +5,7 @@ import ListScreen from './src/screens/ListScreen';
 import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import TestScreen from './src/screens/TestScreen';
-import Firebase from './constants/FirebaseKeys';
+import FoodScreen from './src/screens/FoodScreen';
 
 const navigator = createStackNavigator(
   {
@@ -13,10 +13,11 @@ const navigator = createStackNavigator(
     List: ListScreen,
     Login: LoginScreen,
     Signup: SignupScreen,
-    Test: TestScreen
+    Test: TestScreen,
+    Food: FoodScreen
   },
   {
-    initialRouteName: 'List',
+    initialRouteName: 'Login',
     defaultNavigationOptions: {
       title: 'Yolked',
       headerShown: false
