@@ -1,69 +1,67 @@
 import React, { useReducer } from 'react';
-import { FlatList, StyleSheet,SafeAreaView, Searchbar } from 'react-native';
+import { FlatList, StyleSheet,SafeAreaView } from 'react-native';
+import { Provider, Portal, Dialog, Button, TextInput,Searchbar } from 'react-native-paper';
 import ListItem from '../components/ListItem';
-import Search from '../components/Search';
-
-
-const DATA = [
-  {
-    id: '1',
-    item: 'First Item',
-    amount: 5,
-  },
-  {
-    id: '2',
-    item: 'Second Item',
-    amount: 6,
-  },
-  {
-    id: '3',
-    item: 'Third Item',
-    amount: 7,
-  },
-
-];
-
-
-const reducer = (state, action) => {
+import Fab from '../components/fab';
+import {reducer, foodItem, initialState } from '../components/Reducer';
 
   
-    switch (action.type) {
-      case 'increment':
-        return  state.map(item =>{
-          console.log(item.amount);
-          //item.amount + 1;
-          
-        })
-      //case 'decrement':
-       // return { ...state, amount: state.amount - action.payload };
-      default:
-        return state;
-  }
-};
 
+  const ListScreen = () => {
+    
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-
-
-const ListScreen = () => {
-
-  const [state, dispatch] = useReducer(reducer, DATA );
-  
-
-
-
-
+  const [valueItem, onChangeitem] = React.useState('');
+  const [amountItem, onChangeAmount] = React.useState('');
+  const [searchInput,onSeachChange] = React.useState('');
   return (
+    <Provider>
     <SafeAreaView style={styles.container}>
-      <Search/>
-    <FlatList
-      data = {DATA}
-      renderItem={({ item }) => <ListItem id={item.id} item={item.item} amount={item.amount} onIncrease={() =>dispatch({ type: 'increment', payload: 1 })} />}
-      keyExtractor={item => item.id}
+      <Searchbar
+        placeholder="Search"
+        onChangeText={text => onSeachChange(text)}
+        value={searchInput}
+      />
+      <FlatList
+        keyExtractor={item => item.key}
+        data = {state.foodItem.filter(item => item.item.includes(searchInput))}
+        extraData={state.update}
+        renderItem={({ item }) => {return(<ListItem item={item} 
+                                          onIncrease = { () =>{dispatch({type: 'onIncrease' , key: item.key})}} 
+                                          onDecrease= {() =>{dispatch({type: 'onDecrease', key: item.key})}} 
+                                          onDelete= {() =>{ dispatch({type: 'onDelete', key: item.key})}} />)}}
+      
     />
+    <Portal>
+      <Dialog
+      visible={state.visible}
+      onDismiss={ () =>{dispatch({type: 'closepopup'})}}>
+      <Dialog.Content>
+        <TextInput
+          label='New Item'
+          value={valueItem}
+          onChangeText={text => onChangeitem(text)}
+        />
+        <TextInput
+          label='Amount'
+          value={amountItem}
+          onChangeText={text => onChangeAmount(parseInt(text))}
+        />
+      </Dialog.Content>
+      <Dialog.Actions>
+        <Button onPress= { () =>{dispatch({type: 'closepopup',newAmount: amountItem, newItem: valueItem})}} >Done</Button>
+      </Dialog.Actions>
+    </Dialog>
+  </Portal>
+      
+    <Fab  popup = {() => {dispatch({type: 'popup'})}} />
 
   </SafeAreaView>
+  </Provider>
   );
 };
+
+
 
 const styles = StyleSheet.create({
   container: {
