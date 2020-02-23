@@ -7,43 +7,70 @@ import {
   StyleSheet
 } from 'react-native';
 import Button from '../components/Button';
-import Firebase from '../../constants/FirebaseKeys';
+import Firebase, { database } from '../../constants/FirebaseKeys';
 
 // Images
 import Logo from '../../assets/images/yolked_logo.svg';
 
 const SignupScreen = ({ navigation }) => {
+  const [valueUser, onChangeUser] = React.useState('');
   const [valueEmail, onChangeEmail] = React.useState('');
   const [valuePassword, onChangePassword] = React.useState('');
   const [valuePasswordCheck, onChangePasswordCheck] = React.useState('');
 
-  const Validate = async (email, password, passwordCheck) => {
+  const Validate = async (username, email, password, passwordCheck) => {
 
+    email = email.trim();
+    // HELPER FUNCTIONS validation
     if (password != passwordCheck) {
       alert('Your passwords do not match');
       return;
     }
-    await Firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      alert(`Error Code: ${errorCode}\n${errorMessage}`);
-      auth = false;
-      return;
+    if (username === null) {
+      alert('Please enter a username')
+    }
+    if (email === null) {
+      alert('Must enter an email');
+    }
+
+    await Firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(function(result) {
+      database.collection('users').doc(result.user.uid).set({
+         favFoods: [],
+         favRecipes: []
+      });
+      return result.user.updateProfile({
+        displayName: username
+      });
+    }).catch(function(error) {
+        // Handle Errors here.
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        alert(`Error Code: ${errorCode}\n${errorMessage}`);
+        auth = false;
+        return;
     });
     if (auth) {
-      alert('Check your email to validate, then login');
+      alert('Welcome to Yolked!');
       navigation.navigate('Login');
     }
   }
   return (
     <View style={{flex: 1, backgroundColor: '#D8A120'}}>
       <View style={styles.viewStyle}>
-        <Logo width={'100%'} height={'100%'}/>
+        <Logo width={'50%'} height={'100%'}/>
       </View>
       <View style={styles.viewStyle}>
         <TextInput
-          placeholder='Email/Username'
+          placeholder='Username'
+          style={styles.inputStyle}
+          onChangeText={text => onChangeUser(text)}
+          autoCapitalize="none"
+          autoCorrect={false}
+          value={valueUser}
+        />
+        <TextInput
+          placeholder='Email'
           style={styles.inputStyle}
           onChangeText={text => onChangeEmail(text)}
           autoCapitalize="none"
@@ -73,7 +100,7 @@ const SignupScreen = ({ navigation }) => {
         <Button
           text='Confirm'
           onPress={() => {
-            Validate(valueEmail,valuePassword,valuePasswordCheck);
+            Validate(valueUser, valueEmail,valuePassword,valuePasswordCheck);
           }}
         />
       </View>
@@ -96,7 +123,7 @@ const styles = StyleSheet.create({
     borderColor: '#e09900',
     borderRadius: 20,
     borderWidth: 3,
-    marginVertical: 20,
+    marginVertical: 10,
     height: 40,
     width: '70%',
     fontSize: 15,

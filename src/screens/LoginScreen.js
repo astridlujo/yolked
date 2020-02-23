@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,21 +10,32 @@ import Button from '../components/Button';
 import Firebase from '../../constants/FirebaseKeys';
 
 // Images
-import Logo from '../../assets/images/yolked_logo.svg';
+import LogoSymbol from '../../assets/images/yolked_logo.svg';
+import LogoText from '../../assets/images/yolked_text.svg';
 
 const LoginScreen = ({ navigation }) => {
   const [valueEmail, onChangeEmail] = useState('');
   const [valuePassword, onChangePassword] = useState('');
+  const [valueStart, onStart] = useState(true);
 
-  // Use this with a splash screen....
-  Firebase.auth().onAuthStateChanged(function(user) {
-    if (user) {
-      navigation.navigate('Test');
-    } else {
-      console.log('User not signed in');
-      return;
+  // TODO: Look into using a splash screen.
+  useEffect(() => {
+    onStart(false);
+    if(valueStart) {
+      console.log(valueStart);
+      Firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          onChangeEmail('');
+          onChangePassword('');
+          console.log('User signed in');
+          navigation.navigate('Test');
+        } else {
+          console.log('User not signed in');
+          return;
+        }
+      });
     }
-  });
+  }, [valueStart]);
 
   const Validate = async (email, password) => {
     console.log("Function active");
@@ -37,19 +48,20 @@ const LoginScreen = ({ navigation }) => {
       alert(`Error Code: ${errorCode}\n${errorMessage}`);
       onChangePassword('');
       auth = false;
-      return false;
+      return;
     });
     if (auth) {
-      alert("User signed in");
+      console.log('User signed in');
       navigation.navigate('Test');
-      return true;
+      return;
     }
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#D8A120'}}>
+    <View style={{flex: 1, backgroundColor: '#D8A120', paddingTop: '10%' }}>
       <View style={styles.viewStyle}>
-        <Logo width={'100%'} height={'100%'}/>
+        <LogoSymbol width={'100%'} height={'70%'}/>
+        <LogoText width={'100%'} height={'50%'}/>
       </View>
       <View style={styles.viewStyle}>
         <TextInput
