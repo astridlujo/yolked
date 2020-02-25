@@ -9,6 +9,7 @@ import {
   FlatList,
   StyleSheet
 } from 'react-native';
+import FoodItem from '../components/FoodItem';
 import { SearchFood, GetMore } from '../scripts/EdamamPull.js';
 import { removeDuplicates } from '../scripts/HelperFunctions.js';
 
@@ -22,10 +23,15 @@ const FoodScreen = () => {
   //const myEdamam = new EdamamPull();
 
   const SearchFor = async (foodName) => {
-    linkStack = new Array();
+    setResult([]);
     await setNextHref('');
     await setPrevHref('');
-    setResult([]);
+
+    if (foodName.trim() === '') {
+      return;
+    }
+
+    linkStack = new Array();
     console.log("Search pressed!");
     const [results, next, prev] = await SearchFood(foodName);
 
@@ -36,6 +42,7 @@ const FoodScreen = () => {
       await setNextHref('')
     }
     await linkStack.push(prev.pHref);
+    console.log(result);
   }
 
   const GetNext = async (href) => {
@@ -55,7 +62,6 @@ const FoodScreen = () => {
     } else {
       setNextHref('')
     }
-    // console.log(linkStack);
   }
 
   const GetPrev = async (href) => {
@@ -68,7 +74,7 @@ const FoodScreen = () => {
 
     if (linkStack.length !== 1) {
       console.log("POP!");
-      debugger;
+
       linkStack.pop();
       console.log('PEEK ' + linkStack[linkStack.length-1]);
       setPrevHref(linkStack[linkStack.length-2]);
@@ -76,11 +82,10 @@ const FoodScreen = () => {
         setPrevHref('');
       }
     }
-    // console.log(linkStack);
   }
 
   return (
-    <View style={{margin:50, marginBottom: 100}}>
+    <View style={{margin: 10, marginTop:50, marginBottom: 100}}>
       <TextInput
         placeholder='Search for food items...'
         //style={}
@@ -98,6 +103,7 @@ const FoodScreen = () => {
         }}
       />
       <FlatList
+        numColumns={2}
         keyExtractor={food => food.food.foodId}
         data={result}
         ListFooterComponent={() =>{
@@ -139,9 +145,9 @@ const FoodScreen = () => {
             return null;
           } else {
             return (
-              <TouchableOpacity style={styles.itemTouch}>
-                <Text>{item['food']['label']}</Text>
-              </TouchableOpacity>
+              <FoodItem
+                foodObject={item}
+              />
             )
           }
         }}
