@@ -1,18 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, ImageBackground } from 'react-native';
 
-const FoodItem = props => {
+const FoodItem = (props) => {
     return (
         <View>
-            <TouchableOpacity /*onPress={props.onSelectFood}*/>
+            <TouchableOpacity
+              onPress={() =>{
+                console.log('Travel to food!!');
+                props.navigation.navigate('FoodDetails', { foodObject: props.foodObject })
+              }}>
                 <View style={styles.mealItem}>
                     <ImageBackground
                         source={{uri: props.foodObject.food.image}}
                         style={styles.backgroundImage}
                     >
-                        <View style={styles.mealContainer}>
+                        <View style={[styles.mealContainer, props.inPantry ? styles.inPantry : null]}>
                             <Text style={styles.titleStyle} numberOfLines={2} >
-                            {props.foodObject.food.label}</Text>
+                            {props.foodObject.food.label}
+                            {[props.inPantry ? ` ${props.quantity} In Pantry` : null]}
+                            </Text>
                         </View>
                     </ImageBackground>
                     <View style={styles.mealContainer}>
@@ -31,11 +37,15 @@ styles = StyleSheet.create({
         height: 155,
         width: 155,
         borderRadius: 10,
-        overflow: "hidden"
+        overflow: "hidden",
+    },
+    inPantry: {
+        borderColor: '#32cd32',
     },
     mealContainer: {
         flex: 1,
-        borderRadius: 10,
+        borderWidth: 5,
+        borderColor: '#ccc',
         shadowColor: 'black',
         shadowOpacity: 0.26,
         shadowOffset: { width: 0, height: 2 },
@@ -53,7 +63,7 @@ styles = StyleSheet.create({
     },
     backgroundImage: {
         width: '100%',
-        height:'100%'
+        height:'100%',
     }
 
 });

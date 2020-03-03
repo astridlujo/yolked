@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from 'react';
+import React, { useState, useReducer, useEffect } from 'react';
 import {
   View,
   ScrollView,
@@ -12,15 +12,29 @@ import {
 import FoodItem from '../components/FoodItem';
 import { SearchFood, GetMore } from '../scripts/EdamamPull.js';
 import { removeDuplicates } from '../scripts/HelperFunctions.js';
+import { GetFoods } from '../scripts/FirebaseFunctions.js';
 
 let linkStack = new Array()
 
-const FoodScreen = () => {
+const FoodScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [result, setResult] = useState([]); // TODO: Change to foodResult
   const [nextHref, setNextHref] = useState('');
   const [prevHref, setPrevHref] = useState('');
+  const [favorites, setFavorites] = useState([]);
   //const myEdamam = new EdamamPull();
+
+  useEffect(() => {
+    const checkFavorites = navigation.addListener('focus', () => {
+      CheckFavorites();
+    });
+    return checkFavorites
+  }, [favorites]);
+
+  const CheckFavorites = async () => {
+    const response = await GetFoods()
+    setFavorites(response);
+  }
 
   const SearchFor = async (foodName) => {
     setResult([]);
@@ -42,7 +56,7 @@ const FoodScreen = () => {
       await setNextHref('')
     }
     await linkStack.push(prev.pHref);
-    console.log(result);
+    CheckFavorites()
   }
 
   const GetNext = async (href) => {
@@ -144,9 +158,19 @@ const FoodScreen = () => {
           if (result.length === 0) {
             return null;
           } else {
+            let inPantry = false;
+            let quantity = 0;
+            if (favorites.some(e => e.food.foodId === item.food.foodId)) {
+              console.log("IN PANTRY");
+              inPantry = true;
+              quantity = favorites.find(e => e.food.foodId === item.food.foodId).quantity;
+            }
             return (
               <FoodItem
                 foodObject={item}
+                navigation={navigation}
+                inPantry={inPantry}
+                quantity={quantity}
               />
             )
           }
