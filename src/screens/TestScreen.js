@@ -39,7 +39,7 @@ const TestScreen = ({ navigation }) => {
       } else {
         alert('User signed out');
       }
-    })
+    });
   }
   return (
     <View>

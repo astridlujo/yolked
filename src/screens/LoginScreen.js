@@ -28,7 +28,7 @@ const LoginScreen = ({ navigation }) => {
           onChangeEmail('');
           onChangePassword('');
           console.log('User signed in');
-          navigation.navigate('Test');
+          navigation.navigate('Food'); // TODO: Navigate to homescreen
         } else {
           console.log('User not signed in');
           return;
@@ -52,7 +52,7 @@ const LoginScreen = ({ navigation }) => {
     });
     if (auth) {
       console.log('User signed in');
-      navigation.navigate('Test');
+      navigation.navigate('Food'); // TODO: Navigate to homescreen
       return;
     }
   }
