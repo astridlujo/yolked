@@ -32,7 +32,7 @@ const FoodDetail = ({navigation}) => {
           renderItem={({ item }) => {
             if (item.nutrient in nutrients) {
               return(
-                <Text>{item.content.name}: {nutrients[item.nutrient]} {item.content.unit.toFixed(2)}</Text>
+                <Text>{item.content.name}: {nutrients[item.nutrient].toFixed(2)} {item.content.unit}</Text>
               );
             }
           }}
