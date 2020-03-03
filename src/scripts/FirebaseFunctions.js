@@ -50,7 +50,7 @@ export async function UpdateFoods(newFoodArray) {
 
 // Grab array, append new item, and overwrite existing array
 export async function AddFood(foodJSON) {
-  const currFavs = GetFoods();
+  const currFavs = await GetFoods();
   try {
     if (foodJSON.quantity !== undefined && foodJSON.food !== undefined) {
       if (foodJSON.quantity > 0) {
