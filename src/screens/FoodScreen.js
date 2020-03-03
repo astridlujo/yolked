@@ -25,10 +25,10 @@ const FoodScreen = ({ navigation }) => {
   //const myEdamam = new EdamamPull();
 
   useEffect(() => {
-    const checkFavorites = navigation.addListener('focus', () => {
+    console.log("Getting Favorites");
+    const checkFavorites = navigation.addListener('didFocus', () => {
       CheckFavorites();
     });
-    return checkFavorites
   }, [favorites]);
 
   const CheckFavorites = async () => {
@@ -161,9 +161,9 @@ const FoodScreen = ({ navigation }) => {
             let inPantry = false;
             let quantity = 0;
             if (favorites.some(e => e.food.foodId === item.food.foodId)) {
-              console.log("IN PANTRY");
               inPantry = true;
-              quantity = favorites.find(e => e.food.foodId === item.food.foodId).quantity;
+              item = favorites.find(e => e.food.foodId === item.food.foodId)
+              quantity = item.quantity;
             }
             return (
               <FoodItem
