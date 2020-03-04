@@ -4,14 +4,15 @@ import { Platform } from 'react-native'
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs'
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { Ionicons, Foundation } from '@expo/vector-icons';
 
 // Import screens
 import CategoriesScreen from '../src/screens/CategoriesScreen';
 import CategoryMealsScreen from '../src/screens/CategoryMealsScreen';
 import MealDetailScreen from '../src/screens/MealDetailScreen'
 import HomeScreen from '../src/screens/HomeScreen';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
-import { Ionicons, Foundation } from '@expo/vector-icons';
+import SettingsScreen from '../src/screens/SettingsScreen';
 
 import Colors from '../constants/Colors';
 import SearchRecipeScreen from '../src/screens/SearchRecipeScreen';
@@ -111,6 +112,23 @@ const bottomTabNavigatorConfig = {
                         color={tabInfo.tintColor}
                     />
                 );
+            }
+        }
+    },
+
+    // The Settings Screen
+    Settings: {
+        screen: SettingsScreen,
+        navigationOptions: {
+            tabBarLabel: 'Settings',
+            tabBarIcon: (tabInfo) => {
+                return (
+                    <Ionicons 
+                        name='ios-settings'
+                        size={25}
+                        color={tabInfo.tintColor}
+                    />
+                )
             }
         }
     }
