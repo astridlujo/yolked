@@ -14,7 +14,7 @@ import { SearchFood, GetMore } from '../scripts/EdamamPull.js';
 import { removeDuplicates } from '../scripts/HelperFunctions.js';
 import { GetFoods } from '../scripts/FirebaseFunctions.js';
 
-let linkStack = new Array()
+let linkStack = new Array();
 
 const FoodScreen = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -56,7 +56,7 @@ const FoodScreen = ({ navigation }) => {
       await setNextHref('')
     }
     await linkStack.push(prev.pHref);
-    CheckFavorites()
+    CheckFavorites();
   }
 
   const GetNext = async (href) => {
@@ -128,10 +128,6 @@ const FoodScreen = ({ navigation }) => {
               //style={styles.itemTouch, { width: '50%'}}
               onPress={async() => {
                 await GetNext(nextHref);
-
-                console.log('PREVIOUS ' + prevHref);
-                console.log('NEXT ' + nextHref);
-                console.log(linkStack);
               }}
             >
               <Text>Next</Text>
@@ -142,10 +138,6 @@ const FoodScreen = ({ navigation }) => {
               //style={styles.itemTouch, { width: '50%'}}
               onPress={async() => {
                 await GetPrev(prevHref);
-
-                console.log('PREVIOUS ' + prevHref);
-                console.log('NEXT ' + nextHref);
-                console.log(linkStack);
               }}
             >
               <Text>Previous</Text>
