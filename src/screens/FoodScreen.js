@@ -152,10 +152,13 @@ const FoodScreen = ({ navigation }) => {
           } else {
             let inPantry = false;
             let quantity = 0;
+            let unit = '';
             if (favorites.some(e => e.food.foodId === item.food.foodId)) {
               inPantry = true;
-              item = favorites.find(e => e.food.foodId === item.food.foodId)
-              quantity = item.quantity;
+              const itemValues = favorites.find(e => e.food.foodId === item.food.foodId)
+              quantity = itemValues.quantity;
+              unit = itemValues.unit;
+              console.log(unit);
             }
             return (
               <FoodItem
@@ -163,6 +166,7 @@ const FoodScreen = ({ navigation }) => {
                 navigation={navigation}
                 inPantry={inPantry}
                 quantity={quantity}
+                unit={unit}
               />
             )
           }
