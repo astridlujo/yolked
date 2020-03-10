@@ -7,7 +7,8 @@ const FoodItem = (props) => {
             <TouchableOpacity
               onPress={() =>{
                 console.log('Travel to food!!');
-                props.navigation.navigate('FoodDetails', { foodObject: props.foodObject })
+                props.navigation.navigate('FoodDetails', { foodObject: props.foodObject,
+                  inPantry: props.inPantry, quantity: props.quantity, unit: props.unit })
               }}>
                 <View style={styles.mealItem}>
                     <ImageBackground
@@ -15,9 +16,11 @@ const FoodItem = (props) => {
                         style={styles.backgroundImage}
                     >
                         <View style={[styles.mealContainer, props.inPantry ? styles.inPantry : null]}>
-                            <Text style={styles.titleStyle} numberOfLines={2} >
+                            <Text style={styles.titleStyle} numberOfLines={2}>
                             {props.foodObject.food.label}
-                            {[props.inPantry ? ` ${props.quantity} In Pantry` : null]}
+                            </Text>
+                            <Text style={styles.titleStyle} numberOfLines={2}>
+                            {[props.inPantry ? ` ${props.quantity} ${props.unit} in Pantry` : null]}
                             </Text>
                         </View>
                     </ImageBackground>
@@ -65,7 +68,6 @@ styles = StyleSheet.create({
         width: '100%',
         height:'100%',
     }
-
 });
 
 export default FoodItem;
