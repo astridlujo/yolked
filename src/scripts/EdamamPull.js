@@ -1,7 +1,8 @@
 import EdamamKeys from '../../constants/EdamamKeys';
 
 const foodRoot = 'https://api.edamam.com/api/food-database/';
-const recipeRoot = 'https://api.edamam.com/search?q=chicken&app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}';
+const recipeRoot = 'https://api.edamam.com/search';
+// Global variable for user preferences stored in settings using async storage...
 
 function getJson(url) {
   return fetch(url, {
@@ -74,28 +75,34 @@ export async function GetMore(href) {
     //toAppend.push({href: data._links.next.href});
   });
 
+  console.log(response);
   return toAppend;
 }
 
-export async function SearchRecipe(recipeName) {
-  let searchUrl = recipeRoot + 'search?';
-  let urlParams = `ingr=${encodeURI(recipeName)}`
+export async function SearchRecipe(recipeName, from, to) {
+  if(from >= 100) {
+    console.log('Cannot paginate past 100 results due to API');
+    return;
+  }
+
+  let searchUrl = recipeRoot;
+  let urlParams = `?q=${encodeURI(recipeName)}`
+                + `&from=${from}&to=${to}`
                 + `&app_id=${EdamamKeys.recipeAppId}&app_key=${EdamamKeys.recipeAppKey}`;
   searchUrl = searchUrl.concat(urlParams);
-
   console.log(searchUrl);
-  //console.log("Function working");
-  console.log(foodName);
 
-  const foodResponse = getJson(searchUrl);
+  const recipeResponse = getJson(searchUrl);
 
   let response = [];
 
-  await foodResponse.then(data => {
+  await recipeResponse.then(data => {
     //console.log(data);
     //console.log(data['hints']);
     console.log("LENGTH: " + data['hits'].length)
-    response = data['hits'];
+    response.push({hits:data['hits']});
+    response.push({from: from, to: to});
+    // console.log(response);
   });
 
   return response;
