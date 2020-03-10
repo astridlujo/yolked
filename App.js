@@ -17,7 +17,9 @@ import LoginScreen from './src/screens/LoginScreen';
 import SignupScreen from './src/screens/SignupScreen';
 import TestScreen from './src/screens/TestScreen'; // Mark for removal....
 import FoodScreen from './src/screens/FoodScreen';
-import CategoriesScreen from './src/screens/FoodScreen';
+import FoodDetails from './src/screens/FoodDetails';
+import RecipesScreen from './src/screens/RecipesScreen';
+import RecipeDetails from './src/screens/RecipeDetails';
 
 const navigator = createStackNavigator(
   {
@@ -26,7 +28,10 @@ const navigator = createStackNavigator(
     Login: LoginScreen,
     Signup: SignupScreen,
     Test: TestScreen,
-    Food: FoodScreen
+    Food: FoodScreen,
+    FoodDetails: FoodDetails,
+    Recipes: RecipesScreen,
+    RecipeDetails: RecipeDetails
   },
   {
     initialRouteName: 'Login',
