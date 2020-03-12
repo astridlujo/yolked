@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Card, Title, Paragraph, IconButton, Colors } from 'react-native-paper';
+import { Button, Card, Title, Avatar, IconButton, Colors } from 'react-native-paper';
 
 const ListItem = ({item, onIncrease, onDecrease, onDelete}) => (
 
@@ -8,7 +8,8 @@ const ListItem = ({item, onIncrease, onDecrease, onDelete}) => (
 
 
     <Card.Actions style={{alignSelf: 'flex-start'}}>
-    <Title style={{width:'65%'}}>{item.item}</Title>
+    <Avatar.Image size={40} source={{uri:'https://www.edamam.com/food-img/6bc/6bcf87ba7f4f162b0d257d041d69af34.jpg'}} />
+    <Title style={{width:'55%'}}>  {item.item}</Title>
       <IconButton
     icon="minus"
     color={Colors.blue500}
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
     margin: 0,
     alignItems: 'flex-end',
     alignSelf: 'flex-end',
-    elevation: 4,
-    padding: 8,
+    elevation: 9,
+    padding: 4,
   },
 
 })

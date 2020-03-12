@@ -18,6 +18,8 @@ import SignupScreen from './src/screens/SignupScreen';
 import TestScreen from './src/screens/TestScreen'; // Mark for removal....
 import FoodScreen from './src/screens/FoodScreen';
 import CategoriesScreen from './src/screens/FoodScreen';
+import FaveList from './src/screens/FaveList';
+import { FaceAnchorProp } from 'expo/build/AR';
 
 const navigator = createStackNavigator(
   {
@@ -26,10 +28,11 @@ const navigator = createStackNavigator(
     Login: LoginScreen,
     Signup: SignupScreen,
     Test: TestScreen,
-    Food: FoodScreen
+    Food: FoodScreen,
+    Fave: FaveList
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Fave',
     defaultNavigationOptions: {
       title: 'Yolked',
       headerShown: false
