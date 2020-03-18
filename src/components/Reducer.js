@@ -1,21 +1,30 @@
   export const initialState = {
     update: 2, 
+    newKey: 2,
+    tempKey: 0,
     visible: false,
   foodItem : [
     {
       key: '0',
       item: 'First Item',
       amount: 5,
+      image: '',
     },
     {
       key: '1',
       item: 'Second Item',
       amount: 6,
+      image: '',
     },
     {
-      key: '2',
-      item: 'Third Item',
-      amount: 7,
+      //key: '2',
+      quanity: 7,
+      food:{
+        foodId: "",
+        lable: "Third Item" ,
+        image:'',
+      },
+
     },
   
     ]};
@@ -39,20 +48,23 @@
          {
           const item = Object.assign([], state);
           item.foodItem.splice(idx, 1);
+          
           return item;
         }
         case 'popup':
          {
-          //console.log(state);
+          state.tempKey = action.key;
           return {...state,visible: true};
         }
         case 'closepopup':
          {
-          //console.log(state.update);
-          const newKey = state.update + 1;
-
-          state.foodItem.push({key: newKey, item: action.newItem, amount: action.newAmount})
-          return {...state,visible: false, update: state.update + 1};
+          const idx2 = state.foodItem.findIndex(item => item.key === state.tempKey);
+          const item = Object.assign([], state);
+          item.foodItem.splice(idx2, 1);
+          state.newKey + 1;
+          //console.log(state);
+          //state.foodItem.push({key: state.newKey, item: action.newItem, amount: action.newAmount})
+          return {...state,visible: false};
         }
       default:
         return state;
