@@ -1,5 +1,93 @@
 import Firebase, { database } from '../../constants/FirebaseKeys';
 
+export async function QueryFirebaseSettings() {
+  const user = Firebase.auth().currentUser;
+  if (user) {
+    return database.collection('users').doc(user.uid).get()
+    .then(function(doc) {
+      const result = new Array();
+      doc.data().settings.forEach(item => {
+        result.push(item);
+      });
+      return result;
+    });
+  } else {
+    alert('User not signed in');
+  }
+}
+
+export async function GetSettings() {
+  const fetchSettings = QueryFirebaseSettings();
+  let response = new Array();
+
+  await fetchSettings.then(data => {
+    try {
+      response = data;
+    }
+    catch(error) {
+      console.log(error);
+    }
+  });
+  return response;
+}
+
+// Overwrite existing array with user modified array
+export async function UpdateSettings(newSettingArray) {
+  const user = Firebase.auth().currentUser;
+  if (user) {
+    const toFirebase = new Array()
+    newSettingArray.forEach(item => {
+      toFirebase.push(item);
+    });
+    return database.collection('users').doc(user.uid).update({
+      settings: toFirebase
+    });
+  } else {
+    alert('User not signed in');
+  }
+}
+
+export async function AddSetting(newSetting) {
+  const currSettings = await GetSettings();
+  // Check if item already exists
+  if (currSettings.some(e => e === newSetting)) {
+    console.log(currSettings);
+    console.log('Already in settings!');
+    console.log(newSetting);
+    return false;
+  } else {
+    try {
+      currSettings.push(newSetting);
+      UpdateSettings(currSettings);
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+}
+
+export async function RemoveSetting(setting) {
+  const currSettings = await GetSettings();
+
+  try {
+    if(currSettings.some(e => e === setting)) {
+      const newCurrSettings = currSettings.filter((item, index) => {
+        if (item === setting) {
+          return false;
+        } else {
+          return true;
+        }
+      });
+      UpdateSettings(newCurrSettings);
+    } else {
+      throw `${setting} not present in pantry`;
+    }
+  }
+  catch(error) {
+    console.log(error);
+  }
+}
+
 // You will need to use await on this in an async function
 export async function QueryFirebaseFood() {
   const user = Firebase.auth().currentUser;
