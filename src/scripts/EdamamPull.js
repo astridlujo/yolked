@@ -1,5 +1,5 @@
 import EdamamKeys from '../../constants/EdamamKeys';
-
+import { GetSettings } from './FirebaseFunctions';
 const foodRoot = 'https://api.edamam.com/api/food-database/';
 const recipeRoot = 'https://api.edamam.com/search';
 // Global variable for user preferences stored in settings using async storage...
@@ -30,9 +30,18 @@ export async function SearchFood(foodName) {
   let searchUrl = foodRoot + 'parser?';
   let urlParams = `ingr=${encodeURI(foodName)}`
                 + `&app_id=${EdamamKeys.foodAppId}&app_key=${EdamamKeys.foodAppKey}`;
+  let healthLabels = '';
+  const currSettings = await GetSettings();
+
+  currSettings.forEach((element, index) => {
+    healthLabels = healthLabels.concat(`&health=${element}`);
+  })
+  
   searchUrl = searchUrl.concat(urlParams);
+  searchUrl = searchUrl.concat(healthLabels);
 
   console.log(foodName);
+  console.log(searchUrl);
 
   const foodResponse = getJson(searchUrl);
   let response = new Array();
