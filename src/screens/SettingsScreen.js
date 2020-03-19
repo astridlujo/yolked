@@ -1,28 +1,82 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { List } from 'react-native-paper';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
+import { List, Portal, Dialog, Button, TextInput, Provider } from 'react-native-paper';
 import Switch from '../components/Switch';
+import Firebase from '../../constants/FirebaseKeys';
+
+function ChangePassword() {
+  const auth = Firebase.auth();
+  const emailAddress = auth.currentUser.email;
+  auth.sendPasswordResetEmail(emailAddress).then(function() {
+    // Email sent.
+  }).catch(function(error) {
+    // An error happened.
+  });
+}
+
+function UpdateEmail(newEmail) {
+  const user = Firebase.auth().CurrentUser;
+  if (user != null) {
+    user.UpdateEmailAsync(newEmail).ContinueWith(task => {
+      if (task.IsCanceled) {
+        Debug.LogError("UpdateEmailAsync was canceled.");
+        return;
+      }
+      if (task.IsFaulted) {
+        Debug.LogError("UpdateEmailAsync encountered an error: " + task.Exception);
+        return;
+      }
+
+      Debug.Log("User email updated successfully.");
+    });
+  }
+}
 
 const SettingsScreen = props => {
+    const [username, onUsernameChange] = useState(Firebase.auth().currentUser.displayName);
+    const [email, onEmailChange] = useState('');
+    const [visible1, onVisible1Change] = useState(false);
+    const [visible2, onVisible2Change] = useState(false);
+
     return (
+      <Provider>
         <View style={styles.container}>
             <ScrollView>
-                <Text style={styles.welcomeStyle}>Welcome Astrid</Text>
+                <Text style={styles.welcomeStyle}>Welcome, {username ? username : ''}</Text>
 
-                <View>
+                <View style={{width:Dimensions.get('window').width}}>
                     <List.Section>
                         <List.Subheader>Settings</List.Subheader>
 
-                        <TouchableOpacity>
-                            <List.Item 
+                        <TouchableOpacity
+                          onPress={() => {
+                            onVisible2Change(true);
+                          }}
+                        >
+                            <List.Item
                                 title="Change Password"
                                 left={() => <List.Icon icon="textbox-password" />}
                             />
                         </TouchableOpacity>
 
-                        <TouchableOpacity>
-                            <List.Item 
+                        <TouchableOpacity
+                          onPress={() => {
+                            onVisible1Change(true);
+                          }}
+                        >
+                            <List.Item
                                 title="Change email"
+                                left={() => <List.Icon icon="email" />}
+                            />
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                          onPress={() => {
+
+                          }}
+                        >
+                            <List.Item
+                                title="Logout"
                                 left={() => <List.Icon icon="email" />}
                             />
                         </TouchableOpacity>
@@ -30,67 +84,91 @@ const SettingsScreen = props => {
                     </List.Section>
 
                     <List.Section>
-                        <List.Subheader>Search Filters</List.Subheader>
-                            <List.Item 
+                        <List.Subheader>Food Search Filters</List.Subheader>
+                            <List.Item
                                 title="Gluten Free"
                                 left={() => <List.Icon icon="food-croissant" />}
-                                right={() => <Switch />}
+                                right={() => <Switch item={'gluten-free'}/>}
                             />
 
-                            <List.Item 
+                            <List.Item
                                 title="Non-Alcoholic Recipes"
                                 left={() => <List.Icon icon="glass-wine" />}
-                                right={() => <Switch />}
+                                right={() => <Switch item={"alochol-free"}/>}
                             />
 
-                            <List.Item 
+                            <List.Item
                                 title="Vegetarian"
                                 left={() => <List.Icon icon="food-apple" />}
-                                right={() => <Switch />}
+                                right={() => <Switch item={"vegetarian"}/>}
                             />
 
-                            <List.Item 
-                                title="Pescatarian"
-                                left={() => <List.Icon icon="fish" />}
-                                right={() => <Switch />}
-                            />
-
-                            <List.Item 
+                            <List.Item
                                 title="Vegan"
                                 left={() => <List.Icon icon="food-off" />}
-                                right={() => <Switch />}
+                                right={() => <Switch item={"vegan"}/>}
+                            />
+
+                            <List.Item
+                                title="High Protein"
+                                left={() => <List.Icon icon="fitness-center" />}
+                                right={() => <Switch item={"high-protein"}/>}
+                            />
+
+                            <List.Item
+                                title="Peanut Free"
+                                left={() => <List.Icon icon="nut" />}
+                                right={() => <Switch item={"peanut-free"}/>}
+                            />
+
+                            <List.Item
+                                title="Low Carb"
+                                left={() => <List.Icon icon="bread-slice" />}
+                                right={() => <Switch item={"low-carb"}/>}
                             />
 
                     </List.Section>
 
                 </View>
             </ScrollView>
-            
-            
-            {/* Search Table */}
-            {/* <DataTable style={styles.tableStyle}>
-                <DataTable.Header>
-                    <DataTable.Title>Setting</DataTable.Title>
-                    <DataTable.Title>Option</DataTable.Title>
-                </DataTable.Header>
 
-                <DataTable.Row>
-                    <DataTable.Cell>Gluten Free</DataTable.Cell>
-                    <DataTable.Cell><Switch /></DataTable.Cell>
-                </DataTable.Row>
+            <Portal>
+              <Dialog
+                visible={visible1}
+                onDismiss={ () =>{ onVisible1Change(false)}}
+              >
+                <Dialog.Content>
+                  <TextInput
+                    label='New Email'
+                    value={email}
+                    onChangeText={text => onChangeEmail(text)}
+                  />
+                </Dialog.Content>
+                <Dialog.Actions>
+                  <Button onPress= { () =>{
 
-                <DataTable.Row>
-                    <DataTable.Cell>Vegetarian</DataTable.Cell>
-                    <DataTable.Cell><Switch /></DataTable.Cell>
-                </DataTable.Row>
-
-                <DataTable.Row>
-                    <DataTable.Cell>Vegan</DataTable.Cell>
-                    <DataTable.Cell><Switch /></DataTable.Cell>
-                </DataTable.Row>
-            </DataTable>                 */}
-
+                  }}>Done</Button>
+                </Dialog.Actions>
+            </Dialog>
+            <Dialog
+              visible={visible2}
+              onDismiss={ () =>{ onVisible2Change(false)}}
+            >
+              <Dialog.Content>
+                <Text> Are you sure?</Text>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button onPress= { () =>{
+                  ChangePassword();
+                }}>Yes</Button>
+                <Button onPress= { () =>{
+                  onVisible2Change(false);
+                }}>No</Button>
+              </Dialog.Actions>
+          </Dialog>
+          </Portal>
         </View>
+      </Provider>
     );
 };
 
@@ -98,7 +176,8 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         justifyContent: "flex-start",
-        alignItems: "flex-start"
+        alignItems: "flex-start",
+        width: Dimensions.get('window').width
     },
 
     welcomeStyle: {
