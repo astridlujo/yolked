@@ -20,11 +20,11 @@ const RecipesScreen = ({ navigation }) => {
   //const [next, setNext] = useState(''); // Pagination control
   //const [prev, setPrev] = useState('');
   const [result, setResult] = useState([]);
-  //const [current, setCurrent] = useState([])
+  //const [current, setCurrent] = useState([]);
   //Onstartup
   useEffect(() => {
 
-  });
+  },);
 
   const CheckFavorites = async () => {
     const response = await GetRecipes();
