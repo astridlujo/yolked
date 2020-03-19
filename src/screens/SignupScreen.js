@@ -37,7 +37,8 @@ const SignupScreen = ({ navigation }) => {
     .then(function(result) {
       database.collection('users').doc(result.user.uid).set({
          favFoods: [],
-         favRecipes: []
+         favRecipes: [],
+         settings: []
       });
       return result.user.updateProfile({
         displayName: username
@@ -100,7 +101,7 @@ const SignupScreen = ({ navigation }) => {
         <Button
           text='Confirm'
           onPress={() => {
-            Validate(valueUser, valueEmail,valuePassword,valuePasswordCheck);
+            Validate(valueUser,valueEmail,valuePassword,valuePasswordCheck);
           }}
         />
       </View>
