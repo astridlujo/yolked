@@ -22,10 +22,41 @@ function getJson(url) {
 function postJson(url, data) {
   return fetch(url, {
     method: 'POST',
-    body: data
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  }).then(response => {
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error('Edamam JSON nutrient retrieval failed');
+      console.log('Fetch failed!');
+    }
+  }).catch(err => {
+    console.log(err);
   })
 }
 
+export async function GetNutrients(data) {
+  let searchURL = `https://api.edamam.com/api/food-database/nutrients?&app_id=${EdamamKeys.foodAppId}&app_key=${EdamamKeys.foodAppKey}`;
+  const nutrientResponse = postJson(searchURL, data);
+
+  let daily = {};
+  let total = {};
+  let response = new Array();
+
+  await nutrientResponse.then(data => {
+    // console.log(data.totalDaily);
+    daily = data.totalDaily;
+    response.push(daily)
+    total = data.totalNutrients;
+    response.push(total)
+
+  });
+
+  return response;
+}
 export async function SearchFood(foodName) {
   let searchUrl = foodRoot + 'parser?';
   let urlParams = `ingr=${encodeURI(foodName)}`
@@ -36,7 +67,7 @@ export async function SearchFood(foodName) {
   currSettings.forEach((element, index) => {
     healthLabels = healthLabels.concat(`&health=${element}`);
   })
-  
+
   searchUrl = searchUrl.concat(urlParams);
   searchUrl = searchUrl.concat(healthLabels);
 
@@ -98,9 +129,22 @@ export async function SearchRecipe(recipeName, from, to) {
   let urlParams = `?q=${encodeURI(recipeName)}`
                 + `&from=${from}&to=${to}`
                 + `&app_id=${EdamamKeys.recipeAppId}&app_key=${EdamamKeys.recipeAppKey}`;
-  searchUrl = searchUrl.concat(urlParams);
-  console.log(searchUrl);
 
+  let healthLabels = '';
+  const currSettings = await GetSettings();
+
+  currSettings.forEach((element, index) => {
+    if (element === 'high-protein' || element === 'low-carb') {
+      healthLabels = healthLabels.concat(`&diet=${element}`);
+    } else {
+      healthLabels = healthLabels.concat(`&health=${element}`);
+    }
+  })
+
+  searchUrl = searchUrl.concat(urlParams);
+  searchUrl = searchUrl.concat(healthLabels);
+
+  console.log(searchUrl);
   const recipeResponse = getJson(searchUrl);
 
   let response = [];

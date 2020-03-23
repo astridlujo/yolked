@@ -4,39 +4,47 @@ import { List, Portal, Dialog, Button, TextInput, Provider } from 'react-native-
 import Switch from '../components/Switch';
 import Firebase from '../../constants/FirebaseKeys';
 
-function ChangePassword() {
-  const auth = Firebase.auth();
-  const emailAddress = auth.currentUser.email;
-  auth.sendPasswordResetEmail(emailAddress).then(function() {
-    // Email sent.
-  }).catch(function(error) {
-    // An error happened.
-  });
-}
-
-function UpdateEmail(newEmail) {
-  const user = Firebase.auth().CurrentUser;
-  if (user != null) {
-    user.UpdateEmailAsync(newEmail).ContinueWith(task => {
-      if (task.IsCanceled) {
-        Debug.LogError("UpdateEmailAsync was canceled.");
-        return;
-      }
-      if (task.IsFaulted) {
-        Debug.LogError("UpdateEmailAsync encountered an error: " + task.Exception);
-        return;
-      }
-
-      Debug.Log("User email updated successfully.");
-    });
-  }
-}
-
 const SettingsScreen = props => {
     const [username, onUsernameChange] = useState(Firebase.auth().currentUser.displayName);
     const [email, onEmailChange] = useState('');
     const [visible1, onVisible1Change] = useState(false);
     const [visible2, onVisible2Change] = useState(false);
+
+    function ChangePassword() {
+      const auth = Firebase.auth();
+      const emailAddress = auth.currentUser.email;
+      auth.sendPasswordResetEmail(emailAddress).then(function() {
+        // Email sent.
+      }).catch(function(error) {
+        // An error happened.
+      });
+    }
+
+    function Logout() {
+      Firebase.auth().signOut().then(function() {
+        props.navigation.navigate('Login');
+      }).catch(function(error) {
+        // An error happened.
+      });
+    }
+
+    function UpdateEmail(newEmail) {
+      const user = Firebase.auth().CurrentUser;
+      if (user != null) {
+        user.UpdateEmailAsync(newEmail).ContinueWith(task => {
+          if (task.IsCanceled) {
+            Debug.LogError("UpdateEmailAsync was canceled.");
+            return;
+          }
+          if (task.IsFaulted) {
+            Debug.LogError("UpdateEmailAsync encountered an error: " + task.Exception);
+            return;
+          }
+
+          Debug.Log("User email updated successfully.");
+        });
+      }
+    }
 
     return (
       <Provider>
@@ -72,7 +80,7 @@ const SettingsScreen = props => {
 
                         <TouchableOpacity
                           onPress={() => {
-
+                            Logout()
                           }}
                         >
                             <List.Item
@@ -86,15 +94,9 @@ const SettingsScreen = props => {
                     <List.Section>
                         <List.Subheader>Food Search Filters</List.Subheader>
                             <List.Item
-                                title="Gluten Free"
-                                left={() => <List.Icon icon="food-croissant" />}
-                                right={() => <Switch item={'gluten-free'}/>}
-                            />
-
-                            <List.Item
                                 title="Non-Alcoholic Recipes"
                                 left={() => <List.Icon icon="glass-wine" />}
-                                right={() => <Switch item={"alochol-free"}/>}
+                                right={() => <Switch item={"alcohol-free"}/>}
                             />
 
                             <List.Item
@@ -111,7 +113,7 @@ const SettingsScreen = props => {
 
                             <List.Item
                                 title="High Protein"
-                                left={() => <List.Icon icon="fitness-center" />}
+                                left={() => <List.Icon icon="dumbbell" />}
                                 right={() => <Switch item={"high-protein"}/>}
                             />
 

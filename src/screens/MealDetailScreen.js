@@ -19,7 +19,7 @@ const MealDetailScreen = props => {
 
   const selectedMeal = MEALS.find(meal => meal.id === mealID);
 
-  return ( 
+  return (
     <ScrollView>
       <Image source={{uri: selectedMeal.imageUrl}} style={styles.image} />
 
@@ -52,7 +52,7 @@ MealDetailScreen.navigationOptions = navigationData => {
     headerTitle: selectedMeal.title,
     headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
-        <Item 
+        <Item
           title='Favorite'
           iconName='ios-star'
           onPress={() => {

@@ -26,10 +26,10 @@ const FoodScreen = ({ navigation }) => {
 
   useEffect(() => {
     console.log("Getting Favorites");
-    const checkFavorites = navigation.addListener('didFocus', () => {
+    const checker = navigation.addListener('didFocus', () => {
       CheckFavorites();
     });
-  }, [favorites]);
+  }, [navigation]);
 
   const CheckFavorites = async () => {
     const response = await GetFoods()
