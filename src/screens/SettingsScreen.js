@@ -177,6 +177,7 @@ const SettingsScreen = props => {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+        backgroundColor: '#D8A120',
         justifyContent: "flex-start",
         alignItems: "flex-start",
         width: Dimensions.get('window').width

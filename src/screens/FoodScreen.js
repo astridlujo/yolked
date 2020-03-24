@@ -13,6 +13,7 @@ import FoodItem from '../components/FoodItem';
 import { SearchFood, GetMore } from '../scripts/EdamamPull.js';
 import { removeDuplicates } from '../scripts/HelperFunctions.js';
 import { GetFoods } from '../scripts/FirebaseFunctions.js';
+import CustomButton from '../components/Button';
 
 let linkStack = new Array();
 
@@ -99,15 +100,25 @@ const FoodScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={{margin: 10, marginTop:50, marginBottom: 100}}>
+    <View style={{
+      padding: 20,
+      backgroundColor: '#D8A120'}}>
       <TextInput
         placeholder='Search for food items...'
-        //style={}
+        style={{
+          fontSize: 20,
+          borderWidth: 3,
+          padding:8,
+          borderRadius: 3,
+          borderColor: '#CCC',
+          backgroundColor: '#FFF',
+          height: '7%'
+        }}
         onChangeText={text => setSearchText(text)}
         value={searchText}
       />
-      <Button
-        title="Search"
+      <CustomButton
+        text="Search"
         onPress={async() => {
           await SearchFor(searchText)
 
@@ -117,31 +128,34 @@ const FoodScreen = ({ navigation }) => {
         }}
       />
       <FlatList
+        style={{height:'85%'}}
         numColumns={2}
         keyExtractor={food => food.food.foodId}
         data={result}
         ListFooterComponent={() =>{
           return(
-            <View>
-            {nextHref != '' && nextHref != undefined &&
-            <TouchableOpacity
-              //style={styles.itemTouch, { width: '50%'}}
-              onPress={async() => {
-                await GetNext(nextHref);
-              }}
-            >
-              <Text>Next</Text>
-            </TouchableOpacity>
-            }
+            <View style={{
+              flexDirection: 'row',
+              alignSelf: 'center',
+              width:'100%',
+              justifyContent: 'space-between',
+              padding: 10
+            }}>
             {prevHref != '' && prevHref != undefined &&
-            <TouchableOpacity
-              //style={styles.itemTouch, { width: '50%'}}
+            <CustomButton
+              text='Previous'
               onPress={async() => {
                 await GetPrev(prevHref);
               }}
-            >
-              <Text>Previous</Text>
-            </TouchableOpacity>
+            />
+            }
+            {nextHref != '' && nextHref != undefined &&
+            <CustomButton
+              text='Next'
+              onPress={async() => {
+                await GetNext(nextHref);
+              }}
+            />
             }
             </View>
           )
