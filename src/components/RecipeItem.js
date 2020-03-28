@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, ImageBackground } from 'react-native';
+import Star from '../components/star';
 
 const RecipeItem = (props) => {
+    const recipeImage = props.recipeObject.recipe.image
     return (
         <View>
             <TouchableOpacity
@@ -12,14 +14,16 @@ const RecipeItem = (props) => {
               }}>
                 <View style={styles.mealItem}>
                     <ImageBackground
-                        source={{uri: props.recipeObject.recipe.image}}
+                        source={recipeImage !== undefined ? {uri: recipeImage} : require('../../assets/images/yolked_logo_grey.png')}
                         style={styles.backgroundImage}
                     >
-                        <View style={[styles.mealContainer, props.inPantry ? styles.inPantry : null]}>
+                        <View style={[styles.mealContainer, props.inFavorites ? styles.inFavorites : null]}>
                             <Text style={styles.titleStyle} numberOfLines={2} >
                             {props.recipeObject.recipe.label}
-                            {[props.inFavorites ? ` ${props.quantity} In Pantry` : null]}
                             </Text>
+                            <View>
+                            {[props.inFavorites ? <Star/> : null]}
+                            </View>
                         </View>
                     </ImageBackground>
                     <View style={styles.mealContainer}>
@@ -40,7 +44,7 @@ styles = StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
     },
-    inPantry: {
+    inFavorites: {
         borderColor: '#32cd32',
     },
     mealContainer: {

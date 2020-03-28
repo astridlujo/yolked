@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, FlatList, Picker, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Picker, SafeAreaView, Image } from 'react-native';
 import { Provider, Portal, Dialog, TextInput, Searchbar, Button } from 'react-native-paper';
 import { NutrientMap } from '../../constants/Nutrients';
 import { AddFood, RemoveFood } from '../scripts/FirebaseFunctions';
@@ -26,13 +26,12 @@ const FoodDetails = ({navigation}) => {
   const food = foodObject.food;
   const units = foodObject.measures;
   const nutrients = food.nutrients;
-  console.log(nutrients);
 
   function AddToFavorites(amount, foodObj, unitType) {
     const newFoodObj = {
       "quantity": parseInt(amount),
       "unit": unitType,
-      "food": foodObj.food
+      "foodData": foodObj
     }
     AddFood(newFoodObj);
   }
@@ -50,7 +49,6 @@ const FoodDetails = ({navigation}) => {
     }
     console.log(requestData);
     const [newDaily, newFull] = await GetNutrients(requestData);
-    console.log(newFull);
     const fullData = Object.keys(newFull).map(key => ({
       key,
       ...newFull[key]
@@ -63,14 +61,19 @@ const FoodDetails = ({navigation}) => {
     setDailyNutrients(dailyData);
   }
 
+  console.log(nutrients);
   return (
     <Provider>
       <View style={{margin: 30, marginTop:50, marginBottom: 100, alignItems: 'center'}}>
         <Text style={styles.title}>{food.label}</Text>
-        <Text style={styles.subTitle}>{[inPantry ? <Text>{quantity}({unit}) in Pantry</Text> : 'None in your pantry!']}</Text>
+        <Image
+          style={styles.image}
+          source={food.image !== undefined ? {uri: food.image} : require('../../assets/images/yolked_logo_grey.png')}
+        />
+        <Text style={styles.subTitle}>{[inPantry ? <Text>{quantity} {unit}{quantity>0 ? 's' :''} in Pantry</Text> : 'None in your pantry!']}</Text>
         <Text style={styles.subTitle}>Basic Nutrients</Text>
         <FlatList
-          keyExtractor={nutrient => nutrient.nutrient}
+          keyExtractor={(item, index) => {item.nutrient}}
           data={NutrientMap}
           renderItem={({ item }) => {
             if (item.nutrient in nutrients) {
@@ -157,7 +160,7 @@ const FoodDetails = ({navigation}) => {
             onDismiss={() => {setVisible2(false)}}>
             <Dialog.Content>
               <View style={{alignItems: 'center'}}>
-                <Text>Confirm removal?</Text>
+                <Text>Are you sure you want to remove this item?</Text>
               </View>
             </Dialog.Content>
             <Dialog.Actions>
@@ -178,14 +181,18 @@ const FoodDetails = ({navigation}) => {
           </Dialog>
           <Dialog
             visible={visible3}
-            onDismiss={() => {setVisible3(false)}}>
-            <Dialog.ScrollArea>
+            onDismiss={() => {setVisible3(false)}}
+            style={{width: '95%', height: '90%', alignSelf: 'center'}}
+          >
+            <Dialog.ScrollArea
+              style={{width: '105%', alignSelf: 'center'}}
+            >
               <SafeAreaView style={styles.factBox}>
               <View style={styles.factTitle}>
                 <Text style={{fontSize: 28}}>Nutrition Facts</Text>
               </View>
               <View style={styles.factServing}>
-                <Text style={{fontSize: 18}}>Serving Size 1</Text><Picker
+                <Text style={{fontSize: 18}}>Serving Size: 1</Text><Picker
                   selectedValue={nutrientUnit}
                   itemStyle={{ fontSize: 18}}
                   style={{height:25, width:'50%', fontSize: 20,
@@ -201,19 +208,38 @@ const FoodDetails = ({navigation}) => {
                 </Picker><Text style={{fontSize: 18}}>↓</Text>
               </View>
               <FlatList
+                ListHeaderComponent={() => {
+                  return (
+                    <View style={{borderBottomColor: '#000', borderBottomWidth: 5}}>
+                      <Text style={{fontSize: 15, textAlign: 'right'}}>%DV</Text>
+                    </View>
+                  )
+                }}
                 extraData={fullNutrients}
+                keyExtractor={nutrient => nutrient.key}
                 data={fullNutrients}
                 renderItem={({ item }) => {
+                  const itemDaily = dailyNutrients.find(e => e.key === item.key);
+                  //console.log(itemDaily);
                   return(
                     <View style={styles.factItem}>
                       <Text style={{fontSize: 15}}>{item.label}: {item.quantity.toFixed(2)}
                       {item.unit}</Text>
+                      <Text style={{fontSize: 15}}>
+                        {itemDaily === undefined ? '' : itemDaily.quantity.toFixed(2)}
+                        {itemDaily === undefined ? '' : itemDaily.unit}
+                      </Text>
                     </View>
                   );
                 }}
               />
               </SafeAreaView>
             </Dialog.ScrollArea>
+            <Dialog.Actions>
+              <Button onPress={()=> {
+                setVisible3(false);
+              }}>Close</Button>
+            </Dialog.Actions>
           </Dialog>
         </Portal>
       </View>
@@ -222,6 +248,15 @@ const FoodDetails = ({navigation}) => {
 }
 
 const styles = StyleSheet.create({
+  image: {
+    width: 250,
+    height: 250,
+    borderRadius: 20,
+    borderWidth:5,
+    borderColor:'#BBB',
+    padding: 10,
+    alignSelf: 'center'
+  },
   title: {
     fontSize: 40,
     textAlign: 'center',
@@ -232,6 +267,7 @@ const styles = StyleSheet.create({
   },
   factBox: {
     padding: 15,
+    height:'95%',
     width: '100%',
     borderWidth:3,
     borderColor: '#000'
@@ -252,7 +288,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     borderBottomColor: '#000',
     borderBottomWidth: 5,
-    flexDirection: 'row'
+    flexDirection: 'row',
+    justifyContent:  'space-between'
   },
 });
 

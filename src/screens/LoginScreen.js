@@ -59,7 +59,7 @@ const LoginScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={{flex: 1, backgroundColor: '#D8A120', paddingTop: '10%' }}>
+    <View style={{flex: 1, backgroundColor: '#14CC60', paddingTop: '10%' }}>
       <View style={styles.viewStyle}>
         <LogoSymbol width={'100%'} height={'70%'}/>
         <LogoText width={'100%'} height={'50%'}/>
@@ -106,14 +106,13 @@ const styles = StyleSheet.create({
     flexWrap: 'nowrap',
     flex: 1,
     flexDirection: 'column',
-    alignItems: 'center',
-    backgroundColor: '#D8A120'
+    alignItems: 'center'
   },
   // Maybe delete and keep viewStyle only
   inputStyle: {
     //fontFamily: 'Roboto',
     paddingLeft: 20,
-    borderColor: '#e09900',
+    borderColor: '#16DB93',
     borderRadius: 20,
     borderWidth: 3,
     marginVertical: 20,

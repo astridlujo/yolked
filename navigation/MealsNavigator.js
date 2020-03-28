@@ -55,8 +55,8 @@ const bottomTabNavigatorConfig = {
             tabBarLabel: 'Recipes',
             tabBarIcon: (tabInfo) => {
                 return (
-                    <Ionicons 
-                        name='ios-restaurant' 
+                    <Ionicons
+                        name='ios-restaurant'
                         size={25}
                         color={tabInfo.tintColor}
                     />
@@ -64,7 +64,7 @@ const bottomTabNavigatorConfig = {
             }
         }
     },
-        
+
     // The Search Recipes Screen
     RecipesSearchScreen: {
         screen: SearchRecipeScreen,
@@ -81,7 +81,7 @@ const bottomTabNavigatorConfig = {
             }
         }
     },
-    
+
     // The pantry Screen
     PantryScreen: {
         screen: ListScreen,
@@ -89,7 +89,7 @@ const bottomTabNavigatorConfig = {
             tabBarLabel: 'Pantry',
             tabBarIcon: (tabInfo) => {
                 return (
-                    <Ionicons 
+                    <Ionicons
                         name='ios-search'
                         size={25}
                         color={tabInfo.tintColor}
@@ -98,7 +98,7 @@ const bottomTabNavigatorConfig = {
             }
         }
     },
-    
+
     // The Favorite Items Screen
     FavoritesScreen: {
         screen: FavoriteScreen,
@@ -106,7 +106,7 @@ const bottomTabNavigatorConfig = {
             tabBarLabel: 'Favorites',
             tabBarIcon: (tabInfo) => {
                 return (
-                    <Ionicons 
+                    <Ionicons
                         name='ios-star'
                         size={25}
                         color={tabInfo.tintColor}
@@ -123,7 +123,7 @@ const bottomTabNavigatorConfig = {
             tabBarLabel: 'Settings',
             tabBarIcon: (tabInfo) => {
                 return (
-                    <Ionicons 
+                    <Ionicons
                         name='ios-settings'
                         size={25}
                         color={tabInfo.tintColor}
@@ -135,12 +135,12 @@ const bottomTabNavigatorConfig = {
 }
 
 
-const appTabNavigator = 
-    Platform.OS === 'android' 
+const appTabNavigator =
+    Platform.OS === 'android'
         ? createMaterialBottomTabNavigator(bottomTabNavigatorConfig, {
             activeColor: Colors.accentColor,
             shifting: true
-        }) 
+        })
         : createBottomTabNavigator(bottomTabNavigatorConfig, {
             tabBarOptions: {
                 activeTintColor: Colors.headerButtonColor

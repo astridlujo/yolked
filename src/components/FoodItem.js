@@ -2,6 +2,10 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, ImageBackground } from 'react-native';
 
 const FoodItem = (props) => {
+    const foodImage = props.foodObject.food.image;
+
+    console.log(foodImage);
+
     return (
         <View>
             <TouchableOpacity
@@ -12,7 +16,7 @@ const FoodItem = (props) => {
               }}>
                 <View style={styles.mealItem}>
                     <ImageBackground
-                        source={{uri: props.foodObject.food.image}}
+                        source={foodImage !== undefined ? {uri: foodImage} : require('../../assets/images/yolked_logo_grey.png')}
                         style={styles.backgroundImage}
                     >
                         <View style={[styles.mealContainer, props.inPantry ? styles.inPantry : null]}>
@@ -20,7 +24,7 @@ const FoodItem = (props) => {
                             {props.foodObject.food.label}
                             </Text>
                             <Text style={styles.titleStyle} numberOfLines={2}>
-                            {[props.inPantry ? ` ${props.quantity} ${props.unit} in Pantry` : null]}
+                            {[props.inPantry ? ` ${props.quantity} ${props.unit}s in Pantry` : null]}
                             </Text>
                         </View>
                     </ImageBackground>

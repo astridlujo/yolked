@@ -21,7 +21,7 @@ const CategoriesScreen = props => {
     const renderGridItem = (itemData) => {
         return (
             <CategoryGridTile
-                //title={itemDaga['recipe']['label']} 
+                //title={itemDaga['recipe']['label']}
                 title={itemData.item.title}
                 color={itemData.item.color}
                 onSelect={() => {
@@ -37,13 +37,13 @@ const CategoriesScreen = props => {
 
         <View>
             <View style={{ margin: 50 }}>
-                <TextInput 
+                <TextInput
                     placeholder='Search for a recipe'
                     onChangeText={text =>setSearchText(text)}
                     value={searchText}
                 />
 
-                <Button 
+                <Button
                     title='Search'
                     onPress={() => {
                     searchFor(searchText)
@@ -67,15 +67,15 @@ const CategoriesScreen = props => {
       />
             </View>
 
-            <FlatList 
-                keyExtractor={(item, index) => item.id} 
-                data={CATEGORIES} 
-                renderItem={renderGridItem} 
+            <FlatList
+                keyExtractor={(item, index) => item.id}
+                data={CATEGORIES}
+                renderItem={renderGridItem}
                 numColumns={2}
             />
 
         </View>
-        
+
     );
 };
 
@@ -104,5 +104,5 @@ export default CategoriesScreen;
         //     <Button title="Go to Meals!" onPress={() => {
         //         props.navigation.navigate({routeName: 'CategoryMeals'})
         //     }} />
-           
+
         // </View>

@@ -1,19 +1,29 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { FlatList, StyleSheet,SafeAreaView } from 'react-native';
-import { Provider, Portal, Dialog, Button, TextInput,Searchbar } from 'react-native-paper';
+import { Provider, Portal, Dialog, Button, Paragraph,Searchbar } from 'react-native-paper';
+import { GetFoods } from '../scripts/FirebaseFunctions';
 import ListItem from '../components/ListItem';
 import Fab from '../components/fab';
-import {reducer, foodItem, initialState } from '../components/Reducer';
+import { reducer, initialState } from '../components/FoodReducer';
 
-  
-
-  const ListScreen = () => {
-    
+const PantryScreen = ({navigation}) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
-  const [valueItem, onChangeitem] = React.useState('');
-  const [amountItem, onChangeAmount] = React.useState('');
   const [searchInput,onSeachChange] = React.useState('');
+
+  useEffect(() => {
+    console.log("Getting Favorites");
+    const checker = navigation.addListener('didFocus', () => {
+      CheckFoods();
+    });
+    CheckFoods();
+  }, [navigation]);
+
+  async function CheckFoods() {
+    const foodArray = await GetFoods();
+    console.log(state);
+    dispatch({type: 'setArray', newArray: foodArray});
+  }
+
   return (
     <Provider>
     <SafeAreaView style={styles.container}>
@@ -23,38 +33,32 @@ import {reducer, foodItem, initialState } from '../components/Reducer';
         value={searchInput}
       />
       <FlatList
-        keyExtractor={item => item.key}
-        data = {state.foodItem.filter(item => item.item.includes(searchInput))}
+        keyExtractor={item => item.foodData.food.foodId}
+        data = {state.foodItems.filter(item => item.foodData.food.label.includes(searchInput))}
         extraData={state.update}
-        renderItem={({ item }) => {return(<ListItem item={item} 
-                                          onIncrease = { () =>{dispatch({type: 'onIncrease' , key: item.key})}} 
-                                          onDecrease= {() =>{dispatch({type: 'onDecrease', key: item.key})}} 
-                                          onDelete= {() =>{ dispatch({type: 'onDelete', key: item.key})}} />)}}
-      
+        renderItem={({ item }) => {return(<ListItem
+                                          navigation={navigation}
+                                          item={item}
+                                          onIncrease = {() =>{dispatch({type: 'onIncrease' , key: item.foodData.food.foodId})}}
+                                          onDecrease= {() =>{dispatch({type: 'onDecrease', key: item.foodData.food.foodId})}}
+                                          onDelete= {() =>{ dispatch({type: 'popup', key: item.foodData.food.foodId})}} />)}}
     />
+
     <Portal>
       <Dialog
-      visible={state.visible}
-      onDismiss={ () =>{dispatch({type: 'closepopup'})}}>
+        visible={state.visible}
+        onDismiss={ () =>{dispatch({type: 'closepopup'})}}>
       <Dialog.Content>
-        <TextInput
-          label='New Item'
-          value={valueItem}
-          onChangeText={text => onChangeitem(text)}
-        />
-        <TextInput
-          label='Amount'
-          value={amountItem}
-          onChangeText={text => onChangeAmount(parseInt(text))}
-        />
+       <Paragraph>Are you sure you want to remove this item?</Paragraph>
       </Dialog.Content>
       <Dialog.Actions>
-        <Button onPress= { () =>{dispatch({type: 'closepopup',newAmount: amountItem, newItem: valueItem})}} >Done</Button>
+        <Button onPress= { () =>{dispatch({type: 'delete'})}} >Delete</Button>
+        <Button onPress= { () =>{dispatch({type: 'closepopup'})}} >Cancel</Button>
       </Dialog.Actions>
     </Dialog>
   </Portal>
-      
-    <Fab  popup = {() => {dispatch({type: 'popup'})}} />
+
+    <Fab  popup = {() => navigation.navigate('Food')} />
 
   </SafeAreaView>
   </Provider>
@@ -66,7 +70,8 @@ import {reducer, foodItem, initialState } from '../components/Reducer';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#2B4570',
   },
 });
 
-export default ListScreen;
+export default PantryScreen;

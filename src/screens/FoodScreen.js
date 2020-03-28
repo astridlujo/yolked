@@ -26,7 +26,6 @@ const FoodScreen = ({ navigation }) => {
   //const myEdamam = new EdamamPull();
 
   useEffect(() => {
-    console.log("Getting Favorites");
     const checker = navigation.addListener('didFocus', () => {
       CheckFavorites();
     });
@@ -102,7 +101,7 @@ const FoodScreen = ({ navigation }) => {
   return (
     <View style={{
       padding: 20,
-      backgroundColor: '#D8A120'}}>
+      backgroundColor: '#FFF'}}>
       <TextInput
         placeholder='Search for food items...'
         style={{
@@ -167,9 +166,9 @@ const FoodScreen = ({ navigation }) => {
             let inPantry = false;
             let quantity = 0;
             let unit = '';
-            if (favorites.some(e => e.food.foodId === item.food.foodId)) {
+            if (favorites.some(e => e.foodData.food.foodId === item.food.foodId)) {
               inPantry = true;
-              const itemValues = favorites.find(e => e.food.foodId === item.food.foodId)
+              const itemValues = favorites.find(e => e.foodData.food.foodId === item.food.foodId)
               quantity = itemValues.quantity;
               unit = itemValues.unit;
               console.log(unit);

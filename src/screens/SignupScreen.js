@@ -10,7 +10,8 @@ import Button from '../components/Button';
 import Firebase, { database } from '../../constants/FirebaseKeys';
 
 // Images
-import Logo from '../../assets/images/yolked_logo.svg';
+import LogoSymbol from '../../assets/images/yolked_logo.svg';
+import LogoText from '../../assets/images/yolked_text.svg';
 
 const SignupScreen = ({ navigation }) => {
   const [valueUser, onChangeUser] = React.useState('');
@@ -57,9 +58,10 @@ const SignupScreen = ({ navigation }) => {
     }
   }
   return (
-    <View style={{flex: 1, backgroundColor: '#D8A120'}}>
+    <View style={{flex: 1, backgroundColor: '#14CC60', paddingTop: '10%' }}>
       <View style={styles.viewStyle}>
-        <Logo width={'50%'} height={'100%'}/>
+        <LogoSymbol width={'100%'} height={'70%'}/>
+        <LogoText width={'100%'} height={'50%'}/>
       </View>
       <View style={styles.viewStyle}>
         <TextInput
@@ -98,12 +100,14 @@ const SignupScreen = ({ navigation }) => {
         />
       </View>
       <View style={styles.viewStyle}>
-        <Button
-          text='Confirm'
-          onPress={() => {
-            Validate(valueUser,valueEmail,valuePassword,valuePasswordCheck);
-          }}
-        />
+        <View style={{marginTop: '10%'}}>
+          <Button
+            text='Confirm'
+            onPress={() => {
+              Validate(valueUser,valueEmail,valuePassword,valuePasswordCheck);
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -115,13 +119,13 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    backgroundColor: '#D8A120'
+    marginBottom: 10
   },
   // Maybe delete and keep viewStyle only
   inputStyle: {
     //fontFamily: 'Roboto',
     paddingLeft: 20,
-    borderColor: '#e09900',
+    borderColor: '#16DB93',
     borderRadius: 20,
     borderWidth: 3,
     marginVertical: 10,
@@ -129,16 +133,6 @@ const styles = StyleSheet.create({
     width: '70%',
     fontSize: 15,
     backgroundColor: '#fff'
-  },
-  buttonStyle: {
-    margin: 10,
-    width: '30%',
-    height: 40,
-    borderRadius: 20,
-    borderColor: '#888888',
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center'
   },
   textStyle: {
     //fontFamily: 'notoserif',

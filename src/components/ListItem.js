@@ -1,22 +1,29 @@
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button, Card, Title, Avatar, IconButton, Colors } from 'react-native-paper';
+// <Avatar.Image size={40} source={{uri:'https://www.edamam.com/food-img/6bc/6bcf87ba7f4f162b0d257d041d69af34.jpg'}} />
+const ListItem = ({navigation, item, onIncrease, onDecrease, onDelete}) => (
 
-const ListItem = ({item, onIncrease, onDecrease, onDelete}) => (
-
-  <Card style={{flexDirection: 'row'}}>
-
-
-    <Card.Actions style={{alignSelf: 'flex-start'}}>
-    <Avatar.Image size={40} source={{uri:'https://www.edamam.com/food-img/6bc/6bcf87ba7f4f162b0d257d041d69af34.jpg'}} />
-    <Title style={{width:'55%'}}>  {item.item}</Title>
+  <Card style={{flexDirection: 'row', borderTopWidth: 10, borderColor: '#CCC'}}>
+    <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('FoodDetails', { foodObject: item.foodData,
+          inPantry: true, quantity: item.quantity, unit: item.unit })
+      }}
+    >
+      <Title style={{width:'100%'}}>  {item.foodData.food.label}</Title>
+    </TouchableOpacity>
+    <Card.Actions style={{justifyContent: 'space-between'} }>
+    <TouchableOpacity>
+      <Avatar.Image size={40} source={{uri:item.foodData.food.image}} />
+    </TouchableOpacity>
       <IconButton
     icon="minus"
     color={Colors.blue500}
     size={20}
     onPress={() => onDecrease()}
   />
-      <Title>{item.amount}</Title>
+      <Title>{item.quantity} {item.unit}{item.quantity > 1 ? 's' : ''}</Title>
       <IconButton
     icon="plus"
     color={Colors.blue500}

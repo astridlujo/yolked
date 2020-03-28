@@ -123,6 +123,7 @@ export async function QueryFirebaseRecipes() {
 
 // Return foods as a usable array
 export async function GetFoods() {
+  console.log("getting foods");
   const fetchFoods = QueryFirebaseFood();
   let response = new Array();
 
@@ -157,11 +158,11 @@ export async function UpdateFoods(newFoodArray) {
 export async function AddFood(foodJSON) {
   const currFavs = await GetFoods();
   // Check if item already exists
-  if (currFavs.some(e => e.food.foodId === foodJSON.food.foodId)) {
+  if (currFavs.some(e => e.foodData.food.foodId === foodJSON.foodData.food.foodId)) {
     console.log('Already in pantry!');
     let i = 0;
     const newCurrFavs = currFavs.filter((item, index) => {
-      if (item.food.foodId === foodJSON.food.foodId) {
+      if (item.foodData.food.foodId === foodJSON.foodData.food.foodId) {
         i = index;
         return false;
       } else {
@@ -172,7 +173,7 @@ export async function AddFood(foodJSON) {
     UpdateFoods(newCurrFavs);
   } else {
     try {
-      if (foodJSON.quantity !== undefined && foodJSON.food !== undefined) {
+      if (foodJSON.quantity !== undefined && foodJSON.foodData !== undefined) {
         if (foodJSON.quantity > 0) {
           currFavs.push(foodJSON);
           UpdateFoods(currFavs);
@@ -194,10 +195,10 @@ export async function RemoveFood(id) {
   const currFavs = await GetFoods();
 
   try {
-    if(currFavs.some(e => e.food.foodId === id)) {
+    if(currFavs.some(e => e.foodData.food.foodId === id)) {
       let i = 0;
       const newCurrFavs = currFavs.filter((item, index) => {
-        if (item.food.foodId === id) {
+        if (item.foodData.food.foodId === id) {
           i = index;
           return false;
         } else {
@@ -261,6 +262,26 @@ export async function AddRecipe(recipeJSON) {
   }
 }
 
-export async function RemoveRecipe(recipeJSON) {
+export async function RemoveRecipe(recipeURL) {
+  const currFavs = await GetRecipes();
 
+  try {
+    if(currFavs.some(e => e.recipe.url === recipeURL)) {
+      let i = 0;
+      const newCurrFavs = currFavs.filter((item, index) => {
+        if (item.recipe.url === recipeURL) {
+          i = index;
+          return false;
+        } else {
+          return true;
+        }
+      });
+      UpdateRecipes(newCurrFavs);
+    } else {
+      throw `${recipeURL} not present in pantry`;
+    }
+  }
+  catch(error) {
+    console.log(error);
+  }
 }

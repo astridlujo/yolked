@@ -12,18 +12,19 @@ import {
 import RecipeItem from '../components/RecipeItem'; // Change to Recipe Item
 import { SearchRecipe } from '../scripts/EdamamPull.js';
 import { GetRecipes } from '../scripts/FirebaseFunctions.js';
+import CustomButton from '../components/Button';
 
 const RecipesScreen = ({ navigation }) => {
   // State variables
   const [searchText, setSearchText] = useState('');
   const [favorites, setFavorites] = useState([]);
-  //const [next, setNext] = useState(''); // Pagination control
-  //const [prev, setPrev] = useState('');
   const [result, setResult] = useState([]);
-  //const [current, setCurrent] = useState([]);
-  //Onstartup
-  useEffect(() => {
 
+  // Onstartup, check favorites
+  useEffect(() => {
+    const checker = navigation.addListener('didFocus', () => {
+      CheckFavorites();
+    });
   },);
 
   const CheckFavorites = async () => {
@@ -53,8 +54,8 @@ const RecipesScreen = ({ navigation }) => {
         value={searchText}
         autoCapitalize="none"
       />
-      <Button
-        title="Search"
+      <CustomButton
+        text="Search"
         onPress={async() => {
           await SearchFor(searchText);
         }}
@@ -71,11 +72,15 @@ const RecipesScreen = ({ navigation }) => {
             return null;
           } else {
             // User favorites checks...
-
+            let inFavorites = false;
+            if (favorites.some(e => e.recipe.url === item.recipe.url)){
+              inFavorites = true;
+            }
             return (
               <RecipeItem
                 recipeObject={item}
                 navigation={navigation}
+                inFavorites={inFavorites}
               />
             )
           }
