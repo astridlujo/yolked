@@ -50,7 +50,9 @@ const SettingsScreen = props => {
       <Provider>
         <View style={styles.container}>
             <ScrollView>
+              <View style={styles.titleContainer}>
                 <Text style={styles.welcomeStyle}>Welcome, {username ? username : ''}</Text>
+              </View>
 
                 <View style={{width:Dimensions.get('window').width}}>
                     <List.Section>
@@ -177,7 +179,7 @@ const SettingsScreen = props => {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
-        backgroundColor: '#D8A120',
+        // backgroundColor: '#D8A120',
         justifyContent: "flex-start",
         alignItems: "flex-start",
         width: Dimensions.get('window').width
@@ -187,7 +189,16 @@ const styles = StyleSheet.create({
         marginTop: 25,
         padding: 15,
         fontSize: 35,
-        fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto'
+        fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
+        color: '#fff'
+    },
+
+    titleContainer: {
+      backgroundColor: '#09A129',
+      width: '95%',
+      borderRadius: 25,
+      alignSelf: 'center',
+      height: '11%'
     }
 });
 

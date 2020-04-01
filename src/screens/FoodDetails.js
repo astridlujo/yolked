@@ -84,12 +84,14 @@ const FoodDetails = ({navigation}) => {
           }}
         />
         <Button
+          color="#2A7221"
           onPress={() => {
             setVisible3(true);
             DisplayNutrients(nutrientUnit);
           }}
         >Full Nutrients</Button>
         <Button
+          color="#2A7221"
           onPress={() => {
             if (quantity !== undefined) {
               onChangeAmount(quantity);
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
   image: {
     width: 250,
     height: 250,
-    borderRadius: 20,
+    borderRadius: 10,
     borderWidth:5,
     borderColor:'#BBB',
     padding: 10,
@@ -260,10 +262,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     textAlign: 'center',
+    fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto'
   },
   subTitle: {
     fontSize: 20,
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: "bold",
+    fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto'
   },
   factBox: {
     padding: 15,
@@ -275,7 +280,8 @@ const styles = StyleSheet.create({
   factTitle: {
     fontSize: 30,
     borderBottomColor: '#000',
-    borderBottomWidth: 5
+    borderBottomWidth: 5,
+    fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto'
   },
   factServing: {
     fontSize: 20,

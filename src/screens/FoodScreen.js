@@ -102,17 +102,10 @@ const FoodScreen = ({ navigation }) => {
     <View style={{
       padding: 20,
       backgroundColor: '#FFF'}}>
+        <Text style={styles.welcomeStyle}>What food item would you like to search?</Text>
       <TextInput
         placeholder='Search for food items...'
-        style={{
-          fontSize: 20,
-          borderWidth: 3,
-          padding:8,
-          borderRadius: 3,
-          borderColor: '#CCC',
-          backgroundColor: '#FFF',
-          height: '7%'
-        }}
+        style={styles.textInputStyle}
         onChangeText={text => setSearchText(text)}
         value={searchText}
       />
@@ -198,6 +191,26 @@ const styles = StyleSheet.create({
     width: '100%',
     minHeight: 30,
     marginBottom: 10,
+  },
+
+  welcomeStyle: {
+    padding: 15,
+    fontSize: 35,
+    fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
+    // color: '#fff'
+  },
+
+  textInputStyle: {
+    borderColor: '#3E442B',
+      borderWidth: 2,
+      fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
+      paddingBottom: 10,
+      borderRadius: 10,
+      marginBottom: 20,
+      fontSize: 20,
+      textAlign: "center",
+      color: '#153131',
+      backgroundColor: '#FEFCFB'
   }
 });
 

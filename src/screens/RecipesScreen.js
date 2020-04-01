@@ -47,7 +47,10 @@ const RecipesScreen = ({ navigation }) => {
 
   return (
     <View style={{margin: 10, marginTop:50, marginBottom: 100}}>
+
+      <Text style={styles.welcomeStyle}>What would you like to eat today?</Text>
       <TextInput
+      style={styles.textInputStyle}
         placeholder='Search for recipes...'
         //style={}
         onChangeText={text => setSearchText(text)}
@@ -100,6 +103,26 @@ const styles = StyleSheet.create({
     width: '100%',
     minHeight: 30,
     marginBottom: 10,
+  },
+
+  welcomeStyle: {
+    padding: 15,
+    fontSize: 35,
+    fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
+    // color: '#fff'
+  },
+
+  textInputStyle: {
+    borderColor: '#3E442B',
+      borderWidth: 2,
+      fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
+      paddingBottom: 10,
+      borderRadius: 10,
+      marginBottom: 20,
+      fontSize: 20,
+      textAlign: "center",
+      color: '#153131',
+      backgroundColor: '#FEFCFB'
   }
 });
 

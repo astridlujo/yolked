@@ -49,7 +49,7 @@ const PantryScreen = ({navigation}) => {
         visible={state.visible}
         onDismiss={ () =>{dispatch({type: 'closepopup'})}}>
       <Dialog.Content>
-       <Paragraph>Are you sure you want to remove this item?</Paragraph>
+       <Paragraph style={styles.fontStyle} >Are you sure you want to remove this item?</Paragraph>
       </Dialog.Content>
       <Dialog.Actions>
         <Button onPress= { () =>{dispatch({type: 'delete'})}} >Delete</Button>
@@ -72,6 +72,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2B4570',
   },
+
+  fontStyle: {
+    fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto'
+  }
 });
 
 export default PantryScreen;
