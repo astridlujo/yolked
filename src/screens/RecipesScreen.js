@@ -46,9 +46,7 @@ const RecipesScreen = ({ navigation }) => {
   }
 
   return (
-    <View style={{margin: 10, marginTop:50, marginBottom: 100}}>
-
-      <Text style={styles.welcomeStyle}>What would you like to eat today?</Text>
+    <View style={{padding:20, marginBottom: 100}}>
       <TextInput
       style={styles.textInputStyle}
         placeholder='Search for recipes...'

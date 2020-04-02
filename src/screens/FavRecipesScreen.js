@@ -11,7 +11,6 @@ import {reducer, initialState } from '../components/RecipeReducer';
   const [searchInput,onSeachChange] = React.useState('');
 
   useEffect(() => {
-    console.log("Getting Favorites");
     const checker = navigation.addListener('didFocus', () => {
       CheckRecipes();
     });
@@ -20,7 +19,6 @@ import {reducer, initialState } from '../components/RecipeReducer';
 
   async function CheckRecipes() {
     const recipeArray = await GetRecipes();
-    console.log(state);
     dispatch({type: 'setArray', newArray: recipeArray});
   }
 
@@ -28,7 +26,7 @@ import {reducer, initialState } from '../components/RecipeReducer';
     <Provider>
     <SafeAreaView style={styles.container}>
       <Searchbar
-        placeholder="Search"
+        placeholder="Search saved recipes..."
         onChangeText={text => onSeachChange(text)}
         value={searchInput}
       />

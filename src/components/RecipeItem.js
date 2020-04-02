@@ -63,6 +63,9 @@ styles = StyleSheet.create({
     titleStyle: {
         fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
         fontSize: 15,
+        backgroundColor: 'rgba(52, 52, 52, 0.5)',
+        padding: 2,
+        borderRadius: 5,
         textAlign: "center",
         color: 'white'
     },

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, SafeAreaView, Text, StyleSheet, FlatList, Picker, Image, Linking } from 'react-native';
+import { View, SafeAreaView, Text, StyleSheet, FlatList, Picker, Image, Linking, ScrollView } from 'react-native';
 import { Provider, Portal, Dialog, TextInput, Searchbar, Button } from 'react-native-paper';
 import { AddRecipe, RemoveRecipe } from '../scripts/FirebaseFunctions';
 import CustomButton from '../components/Button';
@@ -11,7 +11,8 @@ const RecipeDetails = ({navigation}) => {
 
   return(
     <Provider>
-      <View style={{margin: 10, marginTop:10, marginBottom: 0, alignItems: 'center'}}>
+    <SafeAreaView>
+      <View style={{margin: 30, marginTop:0, marginBottom: '10%', alignItems: 'center'}}>
         <View>
           <Text style={styles.title}>{recipeObject.recipe.label}</Text>
         </View>
@@ -25,6 +26,7 @@ const RecipeDetails = ({navigation}) => {
             <Text>Source: {recipeObject.recipe.source}</Text>
             <Text>Calories: {recipeObject.recipe.calories.toFixed(0)}</Text>
             <Button
+              color="#2A7221"
               onPress={() => {
                 setVisible(true);
               }}
@@ -43,6 +45,7 @@ const RecipeDetails = ({navigation}) => {
         </SafeAreaView>
         <View style={styles.options}>
           <Button
+            color="#2A7221"
             onPress={() => {
               if (inFavorites) {
                 RemoveRecipe(recipeObject.recipe.url);
@@ -54,6 +57,7 @@ const RecipeDetails = ({navigation}) => {
             }}
           >{inFavorites ? "Unsave Recipe" : "Save Recipe"}</Button>
           <Button
+            color="#2A7221"
             onPress={() => {
               //console.log(recipeObject);
               Linking.openURL(recipeObject.recipe.url);
@@ -104,6 +108,7 @@ const RecipeDetails = ({navigation}) => {
           </Dialog>
         </Portal>
       </View>
+      </SafeAreaView>
     </Provider>
   )
 }
@@ -111,7 +116,7 @@ const RecipeDetails = ({navigation}) => {
 const styles = StyleSheet.create({
   title: {
     fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
-    fontSize: 22,
+    fontSize: 30,
     textAlign: "center"
   },
   image: {

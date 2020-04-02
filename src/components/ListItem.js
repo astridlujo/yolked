@@ -11,7 +11,7 @@ const ListItem = ({navigation, item, onIncrease, onDecrease, onDelete}) => (
           inPantry: true, quantity: item.quantity, unit: item.unit })
       }}
     >
-      <Title style={{width:'100%'}}>  {item.foodData.food.label}</Title>
+      <Title style={{maxWidth:'100%', padding: '2%', textAlign: 'left'}}>  {item.foodData.food.label}</Title>
     </TouchableOpacity>
     <Card.Actions style={{justifyContent: 'space-between'} }>
     <TouchableOpacity>

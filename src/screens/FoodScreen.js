@@ -46,7 +46,6 @@ const FoodScreen = ({ navigation }) => {
     }
 
     linkStack = new Array();
-    console.log("Search pressed!");
     const [results, next, prev] = await SearchFood(foodName);
 
     setResult(removeDuplicates(results.hints, 'food'));
@@ -60,13 +59,11 @@ const FoodScreen = ({ navigation }) => {
   }
 
   const GetNext = async (href) => {
-    console.log('Getting next');
     setResult([]);
     const [newResults, next] = await GetMore(href);
 
     setResult(removeDuplicates(newResults.hints, 'food'));
 
-    console.log('PEEK' + linkStack[linkStack.length-1]);
     setPrevHref(linkStack[linkStack.length-1]);
 
     linkStack.push(href);
@@ -79,7 +76,6 @@ const FoodScreen = ({ navigation }) => {
   }
 
   const GetPrev = async (href) => {
-    console.log('Getting previous! ' + href);
     setResult([]);
     const [newResults, next] = await GetMore(href);
 
@@ -87,10 +83,7 @@ const FoodScreen = ({ navigation }) => {
     setNextHref(next.nHref);
 
     if (linkStack.length !== 1) {
-      console.log("POP!");
-
       linkStack.pop();
-      console.log('PEEK ' + linkStack[linkStack.length-1]);
       setPrevHref(linkStack[linkStack.length-2]);
       if (linkStack.length === 1) {
         setPrevHref('');
@@ -102,7 +95,6 @@ const FoodScreen = ({ navigation }) => {
     <View style={{
       padding: 20,
       backgroundColor: '#FFF'}}>
-        <Text style={styles.welcomeStyle}>What food item would you like to search?</Text>
       <TextInput
         placeholder='Search for food items...'
         style={styles.textInputStyle}
@@ -113,10 +105,6 @@ const FoodScreen = ({ navigation }) => {
         text="Search"
         onPress={async() => {
           await SearchFor(searchText)
-
-          console.log('PREVIOUS ' + prevHref);
-          console.log('NEXT ' + nextHref);
-          console.log(linkStack)
         }}
       />
       <FlatList
@@ -164,7 +152,6 @@ const FoodScreen = ({ navigation }) => {
               const itemValues = favorites.find(e => e.foodData.food.foodId === item.food.foodId)
               quantity = itemValues.quantity;
               unit = itemValues.unit;
-              console.log(unit);
             }
             return (
               <FoodItem

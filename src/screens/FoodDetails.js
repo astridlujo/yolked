@@ -47,7 +47,7 @@ const FoodDetails = ({navigation}) => {
         }
       ]
     }
-    console.log(requestData);
+    //console.log(requestData);
     const [newDaily, newFull] = await GetNutrients(requestData);
     const fullData = Object.keys(newFull).map(key => ({
       key,
@@ -61,10 +61,10 @@ const FoodDetails = ({navigation}) => {
     setDailyNutrients(dailyData);
   }
 
-  console.log(nutrients);
+  //console.log(nutrients);
   return (
     <Provider>
-      <View style={{margin: 30, marginTop:50, marginBottom: 100, alignItems: 'center'}}>
+      <View style={{margin: 30, marginTop:0, marginBottom: '10%', alignItems: 'center'}}>
         <Text style={styles.title}>{food.label}</Text>
         <Image
           style={styles.image}
@@ -101,6 +101,7 @@ const FoodDetails = ({navigation}) => {
         >{[inPantry ? 'Update Pantry' : 'Add to Pantry']}</Button>
         {inPantry ?
           <Button
+            color="#2A7221"
             onPress={() => {
               setVisible2(true);
             }}
@@ -146,7 +147,7 @@ const FoodDetails = ({navigation}) => {
                     setInPantry(true);
                   }
                   setVisible(false);
-                  console.log(amountItem);
+                  //console.log(amountItem);
                 }}
               >Submit</Button>
               <Button
@@ -260,7 +261,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center'
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     textAlign: 'center',
     fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto'
   },

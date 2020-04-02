@@ -51,9 +51,9 @@ export async function AddSetting(newSetting) {
   const currSettings = await GetSettings();
   // Check if item already exists
   if (currSettings.some(e => e === newSetting)) {
-    console.log(currSettings);
-    console.log('Already in settings!');
-    console.log(newSetting);
+    // console.log(currSettings);
+    // console.log('Already in settings!');
+    // console.log(newSetting);
     return false;
   } else {
     try {

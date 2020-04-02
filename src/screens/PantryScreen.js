@@ -11,7 +11,6 @@ const PantryScreen = ({navigation}) => {
   const [searchInput,onSeachChange] = React.useState('');
 
   useEffect(() => {
-    console.log("Getting Favorites");
     const checker = navigation.addListener('didFocus', () => {
       CheckFoods();
     });
@@ -20,7 +19,6 @@ const PantryScreen = ({navigation}) => {
 
   async function CheckFoods() {
     const foodArray = await GetFoods();
-    console.log(state);
     dispatch({type: 'setArray', newArray: foodArray});
   }
 
@@ -28,7 +26,7 @@ const PantryScreen = ({navigation}) => {
     <Provider>
     <SafeAreaView style={styles.container}>
       <Searchbar
-        placeholder="Search"
+        placeholder="Search pantry..."
         onChangeText={text => onSeachChange(text)}
         value={searchInput}
       />
@@ -70,7 +68,6 @@ const PantryScreen = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#2B4570',
   },
 
   fontStyle: {

@@ -52,12 +52,28 @@ const bottomTabNavigatorConfig = {
     // The Search Recipes Screen
     Foods: {
         screen: createStackNavigator({
-          Pantry: PantryScreen,
-          Food: FoodScreen,
-          FoodDetails: FoodDetails
+          Pantry: {
+            screen: PantryScreen,
+            navigationOptions: {
+              title: 'Food Pantry'
+            }
+          },
+          Food: {
+            screen: FoodScreen,
+            navigationOptions: {
+              title: 'Food Search'
+            }
+          },
+          FoodDetails: {
+            screen: FoodDetails,
+            navigationOptions: {
+              title: 'Food Details'
+            }
+          }
         }, {
-          title: 'Foods',
-          headerShow: false
+          defaultNavigationOptions: {
+            title: 'Foods'
+          }
         }),
         navigationOptions: {
             tabBarLabel: 'Foods',
@@ -76,9 +92,28 @@ const bottomTabNavigatorConfig = {
     // The pantry Screen
     Recipes: {
         screen: createStackNavigator({
-          FavRecipes: FavRecipesScreen,
-          Recipes: RecipesScreen,
-          RecipeDetails: RecipeDetails
+          FavRecipes: {
+            screen: FavRecipesScreen,
+            navigationOptions: {
+              title: 'Favorite Recipes'
+            }
+          },
+          Recipes: {
+            screen: RecipesScreen,
+            navigationOptions: {
+              title: 'Recipe Search'
+            }
+          },
+          RecipeDetails: {
+            screen: RecipeDetails,
+            navigationOptions: {
+              title: 'Recipe Details'
+            }
+          }
+        }, {
+          defaultNavigationOptions: {
+            title: 'Recipes'
+          }
         }),
         navigationOptions: {
             tabBarLabel: 'Recipes',

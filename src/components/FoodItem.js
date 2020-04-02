@@ -4,13 +4,10 @@ import { View, Text, StyleSheet, TouchableOpacity, Platform, ImageBackground } f
 const FoodItem = (props) => {
     const foodImage = props.foodObject.food.image;
 
-    console.log(foodImage);
-
     return (
         <View>
             <TouchableOpacity
               onPress={() =>{
-                console.log('Travel to food!!');
                 props.navigation.navigate('FoodDetails', { foodObject: props.foodObject,
                   inPantry: props.inPantry, quantity: props.quantity, unit: props.unit })
               }}>
@@ -19,7 +16,7 @@ const FoodItem = (props) => {
                         source={foodImage !== undefined ? {uri: foodImage} : require('../../assets/images/yolked_logo_grey.png')}
                         style={styles.backgroundImage}
                     >
-                        <View style={[styles.mealContainer, props.inPantry ? styles.inPantry : null]}>
+                        <View style={[styles.mealContainer, props.inPantry ? styles.pantryBorder : null]}>
                             <Text style={styles.titleStyle} numberOfLines={2}>
                             {props.foodObject.food.label}
                             </Text>
@@ -46,7 +43,7 @@ styles = StyleSheet.create({
         borderRadius: 10,
         overflow: "hidden",
     },
-    inPantry: {
+    pantryBorder: {
         borderColor: '#32cd32',
     },
     mealContainer: {
@@ -64,6 +61,9 @@ styles = StyleSheet.create({
     },
     titleStyle: {
         fontFamily: Platform.OS === 'ios' ? 'Futura' : 'Roboto',
+        backgroundColor: 'rgba(52, 52, 52, 0.5)',
+        padding: 2,
+        borderRadius: 5,
         fontSize: 15,
         textAlign: "center",
         color: 'white'
